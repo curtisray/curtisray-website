@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+html { background: #0b0b0b; color: #f4f1ea; }
+body { margin: 0; font-family: var(--font-sans); }
+::selection { background: #ff5c35; color: #0b0b0b; }
+.eyebrow { margin: 0 0 1rem; color: #ff7a59; font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; }
