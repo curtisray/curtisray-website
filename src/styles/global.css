@@ -28,7 +28,6 @@ body {
 
 .business-card {
   display: block;
-  width: min(92vw, 1200px);
-  max-height: 90dvh;
+  width: min(82vw, 360px);
   object-fit: contain;
 }
