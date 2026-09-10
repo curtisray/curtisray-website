@@ -1,36 +1,13 @@
 ---
-import {getCollection} from 'astro:content';
-import IntroMotion from '../components/IntroMotion';
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const projects = await getCollection('projects');
 ---
 
-<BaseLayout title="Curtis Ray — Portfolio" description="Selected work by Curtis Ray.">
-  <main class="mx-auto min-h-screen max-w-6xl px-6 py-8 md:px-10 md:py-12">
-    <nav class="flex items-center justify-between border-b border-white/15 pb-5" aria-label="Primary">
-      <a href="/" class="text-lg font-semibold tracking-tight">Curtis Ray</a>
-      <a href="mailto:hello@example.com" class="text-sm text-white/65 transition hover:text-white">Contact</a>
-    </nav>
-
-    <section class="grid min-h-[68vh] content-center py-20">
-      <IntroMotion client:load />
-      <h1 class="max-w-5xl text-5xl font-medium leading-[.95] tracking-[-.055em] sm:text-7xl lg:text-8xl">
-        I make thoughtful digital work with sharp ideas and clean execution.
-      </h1>
-    </section>
-
-    <section class="border-t border-white/15 py-10" aria-labelledby="work-title">
-      <h2 id="work-title" class="mb-10 text-sm uppercase tracking-[.12em] text-white/50">Selected work</h2>
-      <div class="grid gap-px bg-white/15">
-        {projects.map(({data}) => (
-          <article class="grid gap-4 bg-[#0b0b0b] py-7 md:grid-cols-[1fr_2fr_auto] md:items-center">
-            <h3 class="text-2xl tracking-tight">{data.title}</h3>
-            <p class="max-w-xl text-white/60">{data.description}</p>
-            <span class="text-sm text-white/40">{data.year}</span>
-          </article>
-        ))}
-      </div>
-    </section>
+<BaseLayout title="Curtis Ray" description="Curtis Ray">
+  <main class="card-stage">
+    <img
+      class="business-card"
+      src="/business_card.png"
+      alt="Curtis Ray business card with colorful flower artwork, social handle, phone number, website, and email"
+    />
   </main>
 </BaseLayout>

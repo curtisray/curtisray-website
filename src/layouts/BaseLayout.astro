@@ -8,16 +8,10 @@ const {title, description} = Astro.props;
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
   </head>
   <body><slot /></body>
 </html>
-
-<script>
-  import Lenis from 'lenis';
-  const lenis = new Lenis({autoRaf: true});
-  document.addEventListener('astro:before-swap', () => lenis.destroy());
-</script>
