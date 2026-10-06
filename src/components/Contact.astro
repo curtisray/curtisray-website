@@ -6,12 +6,25 @@ interface Props {
 const { id } = Astro.props;
 ---
 
-<details class="contact">
-  <summary class="contact-trigger color-button" aria-controls={id}>
-    contact
-  </summary>
-  <ContactPanel id={id} client:visible />
-</details>
+<div class="contact">
+  <details class="contact-disclosure">
+    <summary class="contact-trigger color-button" aria-controls={id}>
+      contact
+    </summary>
+  </details>
+  <div
+    class="contact-panel"
+    id={id}
+    role="dialog"
+    aria-modal="false"
+    aria-labelledby={`${id}-title`}
+    data-lenis-prevent
+  >
+    <div class="contact-content">
+      <ContactPanel id={id} client:visible />
+    </div>
+  </div>
+</div>
 
 <script>
   import '../scripts/contact';

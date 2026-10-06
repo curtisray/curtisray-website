@@ -15,3 +15,15 @@ html.has-scroll-progress::-webkit-scrollbar {
   transform-origin: top left;
   pointer-events: none;
 }
+
+@media (max-width: 760px) {
+  html {
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar {
+    display: none;
+  }
+  .scroll-progress {
+    display: none;
+  }
+}

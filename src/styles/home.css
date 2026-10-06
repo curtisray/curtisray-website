@@ -31,6 +31,20 @@
   padding: var(--inset);
   background: var(--color-paper);
 }
+@media (prefers-reduced-motion: no-preference) {
+  [data-hero-entrance] .site-header .contact-bar {
+    clip-path: inset(0 100% 0 0);
+  }
+  [data-hero-entrance] .hero-clouds {
+    clip-path: inset(0 0 0 100%);
+  }
+  [data-hero-entrance] .hero-brand {
+    clip-path: inset(100% 0 0 0);
+  }
+  [data-hero-entrance] .hero-copy {
+    clip-path: inset(0 0 100% 0);
+  }
+}
 .hero-copy p,
 .overview-copy p {
   font-size: var(--text-lead);

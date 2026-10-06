@@ -10,5 +10,7 @@ export default defineConfig({
   adapter: vercel(),
   vite: {
     plugins: [tailwindcss()],
+    // Warm both Motion entry points before deferred islands request shared chunks.
+    optimizeDeps: { include: ['motion', 'motion/react'] },
   },
 });

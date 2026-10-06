@@ -2,6 +2,7 @@ const line = document.querySelector<HTMLElement>('.scroll-progress');
 const footer = document.querySelector<HTMLElement>('.site-footer');
 if (line && footer) {
   const root = document.documentElement;
+  const mobile = window.matchMedia('(max-width: 760px)');
   const controller = new AbortController();
   const { signal } = controller;
   let footerTop = 0;
@@ -11,6 +12,7 @@ if (line && footer) {
 
   function paint() {
     frame = 0;
+    if (mobile.matches) return;
     const position = Math.max(0, window.scrollY);
     const range = Math.max(1, footerTop - viewportHeight);
     const progress = Math.min(1, position / range);
@@ -22,7 +24,7 @@ if (line && footer) {
     line!.style.transform = `scaleY(${Math.min(progress, available)})`;
   }
   function schedule() {
-    if (!frame) frame = requestAnimationFrame(paint);
+    if (!mobile.matches && !frame) frame = requestAnimationFrame(paint);
   }
   function measure() {
     viewportHeight = window.innerHeight;

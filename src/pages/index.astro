@@ -17,6 +17,15 @@ import meadow from '../assets/meadow.png';
   title="Curtis Ray — Designer & Developer"
   description="I'm a designer and developer who works as a single, hands-on partner from first idea to launch. Strategy, UI/UX, engineering, and platform enablement."
 >
+  <script is:inline>
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.dataset.heroEntrance = 'pending';
+      // Keep the introduction readable if its enhancement fails to load.
+      setTimeout(() => {
+        delete document.documentElement.dataset.heroEntrance;
+      }, 2500);
+    }
+  </script>
   <div class="page-surface">
     <header class="site-header">
       <ContactBar id="header-contact" />
@@ -81,3 +90,7 @@ import meadow from '../assets/meadow.png';
   </div>
   <Footer full />
 </BaseLayout>
+
+<script>
+  import '../scripts/hero';
+</script>

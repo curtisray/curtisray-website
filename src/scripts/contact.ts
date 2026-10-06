@@ -14,24 +14,25 @@ const cleanups: (() => void)[] = [];
 let motion: Promise<typeof import('motion')> | undefined;
 const loadMotion = () => (motion ??= import('motion'));
 
-for (const details of document.querySelectorAll<HTMLDetailsElement>(
-  '.contact',
-)) {
+for (const container of document.querySelectorAll<HTMLElement>('.contact')) {
+  const details = container.querySelector<HTMLDetailsElement>(
+    '.contact-disclosure',
+  )!;
   const trigger = details.querySelector<HTMLElement>('summary')!;
-  const panel = details.querySelector<HTMLElement>('.contact-panel')!;
-  const form = panel.querySelector<HTMLFormElement>('form')!;
+  const panel = container.querySelector<HTMLElement>('.contact-panel')!;
+  const content = panel.querySelector<HTMLElement>('.contact-content')!;
   let color = 0;
   let version = 0;
   let animations: Animation[] = [];
 
   function reset() {
-    delete details.dataset.opening;
+    delete container.dataset.opening;
     panel.style.removeProperty('width');
     panel.style.removeProperty('height');
     panel.style.removeProperty('overflow');
-    form.style.removeProperty('width');
-    form.style.removeProperty('opacity');
-    form.style.removeProperty('transform');
+    content.style.removeProperty('width');
+    content.style.removeProperty('opacity');
+    content.style.removeProperty('transform');
     trigger.style.removeProperty('opacity');
   }
   function stop() {
@@ -42,16 +43,16 @@ for (const details of document.querySelectorAll<HTMLDetailsElement>(
     animations = [];
     reset();
   }
-  function close() {
+  function close(restoreFocus = true) {
     ++version;
     stop();
     // Hide before moving focus: touch browsers can otherwise paint the stale overlay.
     panel.hidden = true;
     details.open = false;
-    trigger.focus({ preventScroll: true });
+    if (restoreFocus) trigger.focus({ preventScroll: true });
   }
   // Native delegation works even before the form's React island has hydrated.
-  details.addEventListener(
+  container.addEventListener(
     'click',
     (event) => {
       if (
@@ -65,7 +66,7 @@ for (const details of document.querySelectorAll<HTMLDetailsElement>(
     },
     { signal },
   );
-  details.addEventListener(
+  container.addEventListener(
     'keydown',
     (event) => {
       if (event.key !== 'Escape' || !details.open) return;
@@ -75,12 +76,44 @@ for (const details of document.querySelectorAll<HTMLDetailsElement>(
     },
     { signal },
   );
+  document.addEventListener(
+    'pointerdown',
+    (event) => {
+      if (details.open && !container.contains(event.target as Node))
+        close(false);
+    },
+    { signal },
+  );
+  container.addEventListener(
+    'focusout',
+    (event) => {
+      if (
+        details.open &&
+        event.relatedTarget &&
+        !container.contains(event.relatedTarget as Node)
+      )
+        close(false);
+    },
+    { signal },
+  );
+  function focusForm() {
+    if (
+      !details.open ||
+      (document.activeElement !== trigger &&
+        document.activeElement !== document.body)
+    )
+      return;
+    const target = window.matchMedia('(pointer: fine)').matches
+      ? 'input'
+      : '.contact-close';
+    panel.querySelector<HTMLElement>(target)?.focus({ preventScroll: true });
+  }
   cleanups.push(stop);
   trigger.addEventListener(
     'pointerenter',
     () => {
       if (details.open) return;
-      details.style.setProperty(
+      container.style.setProperty(
         '--contact-highlight',
         colors[color++ % colors.length],
       );
@@ -100,7 +133,7 @@ for (const details of document.querySelectorAll<HTMLDetailsElement>(
     'click',
     () => {
       if (!details.open) {
-        const highlight = getComputedStyle(details)
+        const highlight = getComputedStyle(container)
           .getPropertyValue('--contact-highlight')
           .trim();
         panel.style.setProperty(
@@ -117,12 +150,18 @@ for (const details of document.querySelectorAll<HTMLDetailsElement>(
       const current = ++version;
       stop();
       panel.hidden = !details.open;
-      if (!details.open || reducedMotion.matches) return;
+      trigger.setAttribute('aria-expanded', String(details.open));
+      if (!details.open) return;
+      panel.scrollTop = 0;
+      if (reducedMotion.matches) {
+        focusForm();
+        return;
+      }
       const target = panel.getBoundingClientRect();
       const source = trigger.getBoundingClientRect();
       // Only the absolute overlay changes dimensions; the page and form never reflow.
-      form.style.width = `${target.width - 2}px`;
-      details.dataset.opening = '';
+      content.style.width = `${target.width - 2}px`;
+      container.dataset.opening = '';
       panel.style.width = `${source.width}px`;
       panel.style.height = `${source.height}px`;
       panel.style.overflow = 'hidden';
@@ -131,6 +170,7 @@ for (const details of document.querySelectorAll<HTMLDetailsElement>(
         if (signal.aborted || current !== version || !details.open) return;
         if (reducedMotion.matches) {
           reset();
+          focusForm();
           return;
         }
         animations = [
@@ -146,7 +186,7 @@ for (const details of document.querySelectorAll<HTMLDetailsElement>(
             },
           ),
           animate(
-            form,
+            content,
             { opacity: [0, 1], y: [6, 0] },
             {
               delay: motionTokens.quick,
@@ -162,9 +202,15 @@ for (const details of document.querySelectorAll<HTMLDetailsElement>(
         ];
         animations.forEach((animation) => active.add(animation));
         await Promise.all(animations.map((animation) => animation.finished));
-        if (current === version) stop();
+        if (current === version) {
+          stop();
+          focusForm();
+        }
       } catch (error) {
-        if (current === version) stop();
+        if (current === version) {
+          stop();
+          focusForm();
+        }
         console.error('Contact animation could not load', error);
       }
     },

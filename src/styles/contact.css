@@ -184,8 +184,7 @@
 .contact-trigger::-webkit-details-marker {
   display: none;
 }
-.contact:not([open]) > astro-island,
-.contact:not([open]) .contact-panel {
+.contact:not(:has(.contact-disclosure[open])) .contact-panel {
   display: none;
 }
 
@@ -199,7 +198,7 @@
 }
 
 /* Keep the button label in place while its border grows around the form. */
-.contact[data-opening] > .contact-trigger {
+.contact[data-opening] .contact-trigger {
   position: relative;
   z-index: 21;
   border-color: transparent;
@@ -207,7 +206,7 @@
   color: var(--color-ink);
   pointer-events: none;
 }
-.contact[data-opening] .contact-panel form {
+.contact[data-opening] .contact-content {
   opacity: 0;
 }
 .contact-field {
@@ -238,6 +237,6 @@
 }
 
 /* An open form owns this hit area; taps must not reach its covered trigger. */
-.contact[open] > .contact-trigger {
+.contact-disclosure[open] > .contact-trigger {
   pointer-events: none;
 }
