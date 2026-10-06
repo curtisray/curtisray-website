@@ -3,10 +3,34 @@ import DeveloperLayout from '../layouts/DeveloperLayout.astro';
 import TechList from '../components/TechList.astro';
 import { repositories } from '../data/site';
 ---
-<DeveloperLayout title="Open source code" intro="Selected projects with public source. Production builds, open for reference and reuse.">
-  {repositories.map((repo, i) => <article class="content-row">
-    <span class="row-number">{String(i + 1).padStart(2, '0')}</span>
-    <div class="row-copy"><h2>{repo.title}</h2><p>{repo.description}</p><TechList items={repo.technologies} compact /><a class="source-link" href={`https://github.com/curtisray/${repo.repo}`} target="_blank" rel="noopener noreferrer">github.com/curtisray/{repo.repo}</a></div>
-  </article>)}
-  <p class="content-note">See <a class="source-link" href="/agent-skills">agent skills</a> for more on how these sites get built.</p>
+
+<DeveloperLayout
+  title="Open source code"
+  intro="Selected projects with public source. Production builds, open for reference and reuse."
+>
+  {repositories.map((repo, i) => (
+    <article class="content-row">
+      <span class="row-number">{String(i + 1).padStart(2, '0')}</span>
+      <div class="row-copy">
+        <h2>{repo.title}</h2>
+        <p>{repo.description}</p>
+        <TechList items={repo.technologies} compact />
+        <a
+          class="source-link"
+          href={`https://github.com/curtisray/${repo.repo}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          github.com/curtisray/{repo.repo}
+        </a>
+      </div>
+    </article>
+  ))}
+  <p class="content-note">
+    See{' '}
+    <a class="source-link" href="/agent-skills">
+      agent skills
+    </a>{' '}
+    for more on how these sites get built.
+  </p>
 </DeveloperLayout>

@@ -1,17 +1,33 @@
 ---
+import '../styles/editorial.css';
 import BaseLayout from './BaseLayout.astro';
 import Brand from '../components/Brand.astro';
 import Footer from '../components/Footer.astro';
-interface Props { title: string; intro?: string; description?: string }
-const { title, intro, description = intro || `${title} — Curtis Ray, designer and developer.` } = Astro.props;
+interface Props {
+  title: string;
+  intro?: string;
+  description?: string;
+}
+const {
+  title,
+  intro,
+  description = intro || `${title} — Curtis Ray, designer and developer.`,
+} = Astro.props;
 ---
+
 <BaseLayout title={`${title} — Curtis Ray`} description={description}>
   <main id="main" class="developer-page">
     <Brand />
     <header class="developer-heading">
-      <div><p class="eyebrow">For developers</p><h1>{title}</h1>{intro && <p class="page-intro">{intro}</p>}</div>
+      <div>
+        <p class="eyebrow">For developers</p>
+        <h1>{title}</h1>
+        {intro && <p class="page-intro">{intro}</p>}
+      </div>
     </header>
-    <section class="developer-content" aria-label={title}><slot /></section>
+    <section class="developer-content" aria-label={title}>
+      <slot />
+    </section>
   </main>
   <Footer />
 </BaseLayout>

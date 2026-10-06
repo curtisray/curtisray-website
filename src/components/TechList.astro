@@ -1,11 +1,42 @@
 ---
 import { technologies, type Technology } from '../data/site';
-interface Props { items: Technology[]; compact?: boolean }
+import { Image } from 'astro:assets';
+interface Props {
+  items: Technology[];
+  compact?: boolean;
+}
 const { items, compact = false } = Astro.props;
 ---
-<ul class:list={['tech-list', { 'tech-list-compact': compact }]} aria-label="Tech stack">
+
+<ul
+  class:list={['tech-list', { 'tech-list-compact': compact }]}
+  aria-label="Tech stack"
+>
   {items.map((key) => {
     const tech = technologies[key];
-    return <li><span class="tech-icon"><img class:list={{ 'tech-icon-raster': tech.logo.endsWith('.png') }} src={`/logos/${tech.logo}`} alt="" loading="lazy" width={40} height={40} /></span><span>{tech.label}</span></li>;
+    return (
+      <li>
+        <span class="tech-icon">
+          {typeof tech.logo === 'string' ? (
+            <img
+              src={`/logos/${tech.logo}`}
+              alt=""
+              loading="lazy"
+              width={40}
+              height={40}
+            />
+          ) : (
+            <Image
+              class="tech-icon-raster"
+              src={tech.logo}
+              alt=""
+              width={80}
+              height={80}
+            />
+          )}
+        </span>
+        <span translate="no">{tech.label}</span>
+      </li>
+    );
   })}
 </ul>

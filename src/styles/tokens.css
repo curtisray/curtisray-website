@@ -1,0 +1,45 @@
+@theme {
+  --font-serif: 'EB Garamond', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-hand: 'Reenie Beanie', cursive;
+  --color-ink: #141414;
+}
+
+/* Shared scales. Artwork geometry belongs to the feature stylesheets. */
+:root {
+  color-scheme: light;
+  --color-muted: #666;
+  --color-paper: #fff;
+  --color-black: #000;
+  --rule: 1px solid var(--color-ink);
+  --color-canvas: #f3f1ec;
+  --leading-body: 1.45;
+  --color-accent: #ffeb0f;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-14: 3.5rem;
+  --space-16: 4rem;
+  --gutter: clamp(1.25rem, 3vw, 2.5rem);
+  --inset: clamp(1.75rem, 4vw, 3.5rem);
+  --section-space: clamp(2rem, 5vw, 4rem);
+  --header-height: 3rem;
+  --text-caption: 0.75rem;
+  --text-label: 0.875rem;
+  --text-body: clamp(1.0625rem, 1.4vw, 1.25rem);
+  --text-lead: clamp(1.4375rem, 2.2vw, 1.875rem);
+  --text-title: clamp(2rem, 3vw, 2.75rem);
+  --text-section: clamp(2.5rem, 4.6vw, 4.5rem);
+  --text-display: clamp(3rem, 7vw, 6.5rem);
+  --leading-copy: 1.3;
+  --leading-heading: 1.05;
+  --leading-detail: 1.6;
+  --tracking-label: 0.04em;
+}

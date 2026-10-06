@@ -1,28 +1,76 @@
 ---
+import '../styles/shelf.css';
 import { Image } from 'astro:assets';
 import { projects } from '../data/projects';
 ---
-<section id="shelf" class="work-shelf" aria-labelledby="work-title">
+
+<section
+  id="shelf"
+  class="work-shelf"
+  style={`--book-count:${projects.length}`}
+  aria-labelledby="work-title"
+>
   <div class="shelf-index">
-    <div><p class="eyebrow">Selected work</p><h2 id="work-title">My work</h2></div>
+    <div>
+      <p class="eyebrow">Selected work</p>
+      <h2 id="work-title">My work</h2>
+    </div>
     <nav class="shelf-links" aria-label="Selected projects">
-      {projects.map((project) => <a class="underline-link" href={`#work-${project.id}`} data-project-link={project.id}>{project.title}</a>)}
+      {projects.map((project) => (
+        <a
+          class="underline-link"
+          href={`#work-${project.id}`}
+          data-project-link={project.id}
+        >
+          {project.title}
+        </a>
+      ))}
     </nav>
   </div>
   <div class="shelf-books">
     {projects.map((project, i) => (
-      <details id={`work-${project.id}`} class="work-book" name="selected-work" open={i === 0} style={`--book-color:${project.color};--book-ink:${project.ink}`} data-project={project.id}>
+      <details
+        id={`work-${project.id}`}
+        class="work-book"
+        name="selected-work"
+        open={i === 0}
+        style={`--book-color:${project.color};--book-ink:${project.ink}`}
+        data-project={project.id}
+      >
         <summary class="book-spine" aria-controls={`panel-${project.id}`}>
-          <span class="spine-label">Work</span><span class="spine-title">{project.title}</span><span class="spine-rule"></span>
-          <span class="spine-year">{project.year}</span><span class="spine-rule"></span><span class="spine-label">No.</span><span class="spine-number">{String(i + 1).padStart(2, '0')}</span>
+          <span class="spine-label">Work</span>
+          <span class="spine-title">{project.title}</span>
+          <span class="spine-rule"></span>
+          <span class="spine-year">{project.year}</span>
+          <span class="spine-rule"></span>
+          <span class="spine-label">No.</span>
+          <span class="spine-number">{String(i + 1).padStart(2, '0')}</span>
         </summary>
         <div class="book-panel" id={`panel-${project.id}`}>
-          <div class:list={['book-image', { 'book-image-contain': project.fit === 'contain' }]}>
-            <Image src={project.image} alt={project.title} width={1000} widths={[400, 700, 1000]} sizes="(max-width: 760px) 85vw, 36vw" style={`object-fit:${project.fit};object-position:${project.position}`} />
+          <div
+            class:list={[
+              'book-image',
+              { 'book-image-contain': project.fit === 'contain' },
+            ]}
+          >
+            <Image
+              src={project.image}
+              alt={project.title}
+              width={1000}
+              widths={[400, 700, 1000]}
+              sizes="(max-width: 760px) 85vw, 36vw"
+              style={`object-fit:${project.fit};object-position:${project.position}`}
+            />
           </div>
-          <div class="book-caption"><h3>{project.title}</h3><p>{project.tags}</p></div>
+          <div class="book-caption">
+            <h3>{project.title}</h3>
+            <p>{project.tags}</p>
+          </div>
         </div>
       </details>
     ))}
   </div>
 </section>
+<script>
+  import '../scripts/shelf';
+</script>

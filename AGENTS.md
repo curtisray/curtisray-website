@@ -3,10 +3,15 @@
 ### Animation stack
 
 - Use the full Motion library (formerly Framer Motion). Use `motion/react` for animated React components; do not use `motion/mini` or legacy Motion One packages.
-- Keep Astro 7, Tailwind CSS 4, and Lenis. Use Astro's React integration for animated islands, with hydration appropriate to each interaction. The current site's mini API implementation still needs migration to this standard.
+- Keep Astro 7, Tailwind CSS 4, and Lenis. Use Astro's React integration for animated islands, with hydration appropriate to each interaction.
 - Consult `.agents/skills/awwwards-animations/SKILL.md` and `.agents/skills/motion-design/SKILL.md` for animation work. Motion is the default animation library; add other animation libraries only when the requested effect warrants them.
 - Define purpose, timing, easing, and choreography before implementing motion. Prefer transforms and opacity, clean up animation subscriptions, and preserve reduced-motion, keyboard, touch, and normal page scrolling behavior.
 - Adapt skill examples to Astro and check current official APIs. Some references use older library versions or Next.js-specific setup.
+
+### Design system
+
+- Read `docs/design-system.md` before changing visual styles or interactions. Reuse `src/styles/tokens.css` and `src/design/motion.ts`; keep feature styles with their owning component.
+- Preserve the right-aligned shelf, native page scrolling over it, single-line Aleli menu label, and thin shelf borders.
 
 ### Project skills
 
