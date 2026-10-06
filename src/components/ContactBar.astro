@@ -1,0 +1,10 @@
+---
+import Contact from './Contact.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+---
+<div class="contact-bar">
+  <a href="sms:+17079928080">+1 (707) 992-8080</a>
+  <a href="mailto:curtisraymaloney@gmail.com">curtisraymaloney@gmail.com</a>
+  <Contact id={id} />
+</div>

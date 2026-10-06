@@ -1,0 +1,11 @@
+---
+import DeveloperLayout from '../layouts/DeveloperLayout.astro';
+import { skills } from '../data/site';
+---
+<DeveloperLayout title="Agent skills" intro="Skills I've written for AI agents. Each one is open source, with an install command and a link to the code.">
+  {skills.map((skill, i) => <article class="content-row">
+    <span class="row-number">{String(i + 1).padStart(2, '0')}</span>
+    <div class="row-copy"><h2>{skill.name}</h2><p class="skill-description">{skill.description}</p><div class="install-command"><code>{skill.install}</code><button type="button" data-copy={skill.install} aria-label={`Copy install command for ${skill.name}`}>Copy</button></div><a class="source-link" href={skill.source}>View source</a></div>
+  </article>)}
+  {skills.length === 0 && <p class="coming-soon">First skills coming soon</p>}
+</DeveloperLayout>

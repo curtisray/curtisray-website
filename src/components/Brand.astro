@@ -1,0 +1,10 @@
+---
+import { Image } from 'astro:assets';
+import penguin from '../assets/penguin-icon.png';
+interface Props { href?: string; label?: string; class?: string }
+const { href = '/', label = 'Curtis Ray home', class: className } = Astro.props;
+---
+<a class:list={['brand', className]} href={href} aria-label={label}>
+  <Image src={penguin} alt="" width={88} height={72} />
+  <span>Curtis</span>
+</a>

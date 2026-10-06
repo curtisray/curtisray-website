@@ -1,43 +1,49 @@
-# Astro Starter Kit: Minimal
+# Curtis Ray
+
+Personal portfolio for Curtis Ray, designer and developer.
+
+## Stack
+
+Astro 7, Tailwind CSS 4, Motion's native JavaScript API, and Lenis. Pages are
+statically generated and deployed through the existing Vercel adapter. No React
+runtime is needed for the current interactions. Most visual styling is shared CSS;
+Tailwind provides the theme and utility layer.
+
+## Development
+
+Node 22.12 or later is required.
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev -- --background
+npm run astro -- dev status
+npm run astro -- dev logs
+npm run astro -- dev stop
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The local preview normally runs at http://localhost:4321.
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+npm run check
+npm run build
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Pages and content
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+The homepage combines the cloud introduction, developer links, selected work
+shelf, and animated black footer. Six developer pages live in `src/pages/`.
+The supplied coming-soon pages and empty agent skills list are preserved.
 
-Any static assets, like images, can be placed in the `public/` directory.
+- `src/data/projects.ts`: selected work, images, captions, and book colors.
+- `src/data/site.ts`: developer links, technology stacks, repositories, and skills.
+- `src/components/`: shared brand, contact bars, footer, shelf, and technology list.
+- `src/styles/global.css`: typography, desktop compositions, and mobile layouts.
+- `src/scripts/site.ts`: contact composer, shelf navigation, Motion, and Lenis.
+- `src/assets/`: production image sources; Astro generates responsive WebP images.
+- `public/logos/`: technology logos.
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The work shelf uses native `details`/`summary` elements and becomes a vertical
+accordion on mobile. Lenis and animation respect reduced-motion preferences.
+The contact composer prepares a `mailto:` draft in the visitor's email app;
+it does not send email through a backend. Direct email and SMS links are also
+available on every page.

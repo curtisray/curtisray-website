@@ -1,0 +1,12 @@
+---
+import DeveloperLayout from '../layouts/DeveloperLayout.astro';
+import TechList from '../components/TechList.astro';
+import { stacks } from '../data/site';
+---
+<DeveloperLayout title="Tech stack" intro="Each stack is selected for the project at hand. Balanced for quality and performance, built on clean, readable, templated code.">
+  {stacks.map((stack, i) => <article class="content-row stack-row">
+    <span class="row-number">{String(i + 1).padStart(2, '0')}</span>
+    <div class="row-copy"><h2>{stack.title}</h2><p>{stack.description}</p></div>
+    <TechList items={stack.technologies} />
+  </article>)}
+</DeveloperLayout>

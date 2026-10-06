@@ -1,0 +1,11 @@
+---
+import { technologies, type Technology } from '../data/site';
+interface Props { items: Technology[]; compact?: boolean }
+const { items, compact = false } = Astro.props;
+---
+<ul class:list={['tech-list', { 'tech-list-compact': compact }]} aria-label="Tech stack">
+  {items.map((key) => {
+    const tech = technologies[key];
+    return <li><span class="tech-icon"><img class:list={{ 'tech-icon-raster': tech.logo.endsWith('.png') }} src={`/logos/${tech.logo}`} alt="" loading="lazy" width={40} height={40} /></span><span>{tech.label}</span></li>;
+  })}
+</ul>
