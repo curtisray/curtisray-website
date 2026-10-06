@@ -145,3 +145,12 @@ h3 {
 .spine-number {
   font-variant-numeric: tabular-nums;
 }
+
+/* The canvas fills Safari's overscroll area without adding document height. */
+html[data-dark-footer],
+html[data-dark-footer] body {
+  background: var(--page-canvas, var(--color-black));
+}
+.page-surface {
+  background: var(--color-paper);
+}

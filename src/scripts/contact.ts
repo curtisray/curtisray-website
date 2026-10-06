@@ -42,6 +42,39 @@ for (const details of document.querySelectorAll<HTMLDetailsElement>(
     animations = [];
     reset();
   }
+  function close() {
+    ++version;
+    stop();
+    // Hide before moving focus: touch browsers can otherwise paint the stale overlay.
+    panel.hidden = true;
+    details.open = false;
+    trigger.focus({ preventScroll: true });
+  }
+  // Native delegation works even before the form's React island has hydrated.
+  details.addEventListener(
+    'click',
+    (event) => {
+      if (
+        !(event.target instanceof Element) ||
+        !event.target.closest('.contact-close')
+      )
+        return;
+      event.preventDefault();
+      event.stopPropagation();
+      close();
+    },
+    { signal },
+  );
+  details.addEventListener(
+    'keydown',
+    (event) => {
+      if (event.key !== 'Escape' || !details.open) return;
+      event.preventDefault();
+      event.stopPropagation();
+      close();
+    },
+    { signal },
+  );
   cleanups.push(stop);
   trigger.addEventListener(
     'pointerenter',
@@ -83,6 +116,7 @@ for (const details of document.querySelectorAll<HTMLDetailsElement>(
     async () => {
       const current = ++version;
       stop();
+      panel.hidden = !details.open;
       if (!details.open || reducedMotion.matches) return;
       const target = panel.getBoundingClientRect();
       const source = trigger.getBoundingClientRect();

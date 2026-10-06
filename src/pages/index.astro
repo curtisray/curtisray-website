@@ -13,68 +13,71 @@ import meadow from '../assets/meadow.png';
 ---
 
 <BaseLayout
+  darkFooter
   title="Curtis Ray — Designer & Developer"
   description="I'm a designer and developer who works as a single, hands-on partner from first idea to launch. Strategy, UI/UX, engineering, and platform enablement."
 >
-  <header class="site-header">
-    <ContactBar id="header-contact" />
-  </header>
-  <main id="main">
-    <h1 class="sr-only">Curtis Ray — designer and developer</h1>
-    <section class="hero" aria-label="Introduction">
-      <Image
-        class="hero-clouds"
-        src={clouds}
-        alt="Grainy blue sky with clouds"
-        width={1600}
-        widths={[640, 1000, 1600]}
-        sizes="(max-width: 760px) 100vw, 65vw"
-        loading="eager"
-        fetchpriority="high"
-      />
-      <div class="hero-intro">
-        <Brand
-          class="hero-brand"
-          href="#contact"
-          label="Get in touch with Curtis"
+  <div class="page-surface">
+    <header class="site-header">
+      <ContactBar id="header-contact" />
+    </header>
+    <main id="main">
+      <h1 class="sr-only">Curtis Ray — designer and developer</h1>
+      <section class="hero" aria-label="Introduction">
+        <Image
+          class="hero-clouds"
+          src={clouds}
+          alt="Grainy blue sky with clouds"
+          width={1600}
+          widths={[640, 1000, 1600]}
+          sizes="(max-width: 760px) 100vw, 65vw"
+          loading="eager"
+          fetchpriority="high"
         />
-        <div class="hero-copy">
+        <div class="hero-intro">
+          <Brand
+            class="hero-brand"
+            href="#contact"
+            label="Get in touch with Curtis"
+          />
+          <div class="hero-copy">
+            <p>
+              I'm a <em>designer and developer</em> who works as a single,
+              hands-on partner from first idea to launch. I cover strategy,
+              UI/UX, engineering, and platform enablement, so there are no
+              handoffs between the thinking and the building.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section id="work" class="developer-overview" aria-label="For developers">
+        <Image class="overview-paper" src={gridPaper} alt="" width={574} />
+        <Image
+          class="overview-meadow"
+          src={meadow}
+          alt="Pixel meadow with white birds"
+          width={1100}
+          widths={[550, 800, 1100]}
+          sizes="(max-width: 760px) 75vw, 42vw"
+        />
+        <nav class="developer-links" aria-label="For developers">
+          <p class="eyebrow">For developers</p>
+          {developerLinks.map((link) => (
+            <a class="underline-link" href={link.href}>
+              {link.title}
+            </a>
+          ))}
+        </nav>
+        <div class="overview-copy">
           <p>
-            I'm a <em>designer and developer</em> who works as a single,
-            hands-on partner from first idea to launch. I cover strategy, UI/UX,
-            engineering, and platform enablement, so there are no handoffs
-            between the thinking and the building.
+            I can keep projects moving quickly and adapt as things change. I
+            like clear problems, effective solutions, and seeing work through
+            end to end.
           </p>
         </div>
-      </div>
-    </section>
-    <section id="work" class="developer-overview" aria-label="For developers">
-      <Image class="overview-paper" src={gridPaper} alt="" width={574} />
-      <Image
-        class="overview-meadow"
-        src={meadow}
-        alt="Pixel meadow with white birds"
-        width={1100}
-        widths={[550, 800, 1100]}
-        sizes="(max-width: 760px) 75vw, 42vw"
-      />
-      <nav class="developer-links" aria-label="For developers">
-        <p class="eyebrow">For developers</p>
-        {developerLinks.map((link) => (
-          <a class="underline-link" href={link.href}>
-            {link.title}
-          </a>
-        ))}
-      </nav>
-      <div class="overview-copy">
-        <p>
-          I can keep projects moving quickly and adapt as things change. I like
-          clear problems, effective solutions, and seeing work through end to
-          end.
-        </p>
-      </div>
-    </section>
-    <WorkShelf />
-  </main>
+      </section>
+      <WorkShelf />
+    </main>
+  </div>
   <Footer full />
 </BaseLayout>

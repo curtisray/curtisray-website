@@ -50,12 +50,6 @@ export default function Contact({ id }: { id: string }) {
     return () => controller.abort();
   }, []);
 
-  function close() {
-    const details = panel.current!.closest('details')!;
-    details.open = false;
-    details.querySelector('summary')?.focus({ preventScroll: true });
-  }
-
   async function submit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     if (submitting.current) return;
@@ -108,12 +102,6 @@ export default function Contact({ id }: { id: string }) {
       aria-modal="false"
       aria-labelledby={`${id}-title`}
       data-lenis-prevent
-      onKeyDown={(event) => {
-        if (event.key === 'Escape') {
-          event.preventDefault();
-          close();
-        }
-      }}
     >
       <form
         action={contact.formEndpoint || undefined}
@@ -131,7 +119,6 @@ export default function Contact({ id }: { id: string }) {
             className="contact-close"
             type="button"
             aria-label="Close contact form"
-            onClick={close}
           >
             ×
           </button>

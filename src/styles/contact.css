@@ -184,7 +184,8 @@
 .contact-trigger::-webkit-details-marker {
   display: none;
 }
-.contact:not([open]) > astro-island {
+.contact:not([open]) > astro-island,
+.contact:not([open]) .contact-panel {
   display: none;
 }
 
@@ -234,4 +235,9 @@
   outline: none;
   box-shadow: none;
   border-bottom-color: color-mix(in srgb, var(--color-ink) 25%, transparent);
+}
+
+/* An open form owns this hit area; taps must not reach its covered trigger. */
+.contact[open] > .contact-trigger {
+  pointer-events: none;
 }

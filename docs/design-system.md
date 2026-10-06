@@ -67,6 +67,8 @@ Contact grows its bordered overlay from the triggering button’s measured bound
 
 The desktop shelf width transition is an intentional, bounded exception to transform-only animation: it preserves the established accordion geometry and unsquashed content. It runs only on user interaction, for five current books. Reassess it if the collection grows or profiling on target devices shows jank. The contact overlay is the other bounded exception, to maintain a continuous button-to-form border without stretching its rule or text.
 
+A 2px black scroll progress line grows from the top left, replacing the root scrollbar only when its enhancement loads. It reaches full viewport height as the footer enters, clips to the footer’s top edge, and disappears within the footer. It uses a passive scroll listener and one transform write per animation frame, with geometry measured only on layout changes. It directly tracks scroll without easing or additional dependencies. Nested form scrollbars remain native.
+
 Reduced motion disables spatial transitions, Lenis smoothing, and footer line motion. Touch scrolling is native. Closing, switching, or rapidly reopening controls must remain responsive. Clean up global listeners and animation subscriptions.
 
 ## Delivery and progressive enhancement

@@ -1,18 +1,20 @@
 ---
 import '../styles/global.css';
+import ScrollProgress from '../components/ScrollProgress.astro';
 import { motionStyle } from '../design/motion';
 import serifFont from '@fontsource-variable/eb-garamond/files/eb-garamond-latin-wght-normal.woff2?url';
 
 interface Props {
   title: string;
   description: string;
+  darkFooter?: boolean;
 }
-const { title, description } = Astro.props;
+const { title, description, darkFooter = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en" style={motionStyle}>
+<html lang="en" style={motionStyle} data-dark-footer={darkFooter || undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,6 +39,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <a class="skip-link" href="#main">
       Skip to content
     </a>
+    <ScrollProgress />
     <slot />
     <script>
       import '../scripts/site';
