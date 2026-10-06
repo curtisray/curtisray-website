@@ -1,14 +1,11 @@
-import { useReducedMotionPreference } from '../design/useReducedMotionPreference';
 import { useEffect, useRef, useState, type SubmitEvent } from 'react';
-import { motion } from 'motion/react';
-import { motionTokens } from '../design/motion';
 import { contact } from '../data/site';
 
 export default function Contact({ id }: { id: string }) {
-  const [open, setOpen] = useState(true);
-  const [status, setStatus] = useState('Opens a draft in your email app.');
+  const [status, setStatus] = useState('Send me a message.');
+  const [sending, setSending] = useState(false);
+  const submitting = useRef(false);
   const panel = useRef<HTMLDivElement>(null);
-  const reducedMotion = useReducedMotionPreference();
 
   useEffect(() => {
     const details = panel.current?.closest('details');
@@ -16,7 +13,6 @@ export default function Contact({ id }: { id: string }) {
     const controller = new AbortController();
     const { signal } = controller;
     const syncOpen = () => {
-      setOpen(details.open);
       if (
         details.open &&
         (document.activeElement === details.querySelector('summary') ||
@@ -60,17 +56,51 @@ export default function Contact({ id }: { id: string }) {
     details.querySelector('summary')?.focus({ preventScroll: true });
   }
 
-  function submit(event: SubmitEvent<HTMLFormElement>) {
+  async function submit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const subject = `Contact from ${data.get('name')}`;
-    const body = `Name: ${data.get('name')}\nCell: ${data.get('cell') || ''}\nEmail: ${data.get('email')}\n\n${data.get('message')}`;
-    window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setStatus('Email draft prepared. Send it from your email app.');
+    if (submitting.current) return;
+    if (!contact.formEndpoint) {
+      setStatus(`Please email me at ${contact.email}.`);
+      return;
+    }
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    submitting.current = true;
+    setSending(true);
+    setStatus('Sending your message…');
+    try {
+      const response = await fetch(contact.formEndpoint, {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' },
+      });
+      if (response.ok) {
+        form.reset();
+        setStatus('Thanks! Your message has been sent.');
+      } else {
+        const result = await response.json().catch(() => null);
+        const messages = Array.isArray(result?.errors)
+          ? result.errors
+              .map((error: { message?: string }) => error.message)
+              .filter(Boolean)
+              .join(' ')
+          : '';
+        setStatus(
+          messages || 'Your message could not be sent. Please try again.',
+        );
+      }
+    } catch {
+      setStatus(
+        'Your message could not be sent. Check your connection and try again.',
+      );
+    } finally {
+      submitting.current = false;
+      setSending(false);
+    }
   }
 
   return (
-    <motion.div
+    <div
       ref={panel}
       className="contact-panel"
       id={id}
@@ -84,22 +114,15 @@ export default function Contact({ id }: { id: string }) {
           close();
         }
       }}
-      initial={false}
-      animate={
-        open
-          ? { opacity: 1, y: 0, scale: 1 }
-          : {
-              opacity: 0,
-              y: reducedMotion ? 0 : 6,
-              scale: reducedMotion ? 1 : 0.98,
-            }
-      }
-      transition={{
-        duration: reducedMotion ? 0 : motionTokens.standard,
-        ease: motionTokens.ease,
-      }}
     >
-      <form action={`mailto:${contact.email}`} method="get" onSubmit={submit}>
+      <form
+        action={contact.formEndpoint || undefined}
+        method="post"
+        aria-busy={sending}
+        aria-describedby={`${id}-status`}
+        autoComplete="off"
+        onSubmit={submit}
+      >
         <div className="contact-heading">
           <span className="eyebrow" id={`${id}-title`}>
             Get in touch
@@ -115,42 +138,65 @@ export default function Contact({ id }: { id: string }) {
         </div>
         <label htmlFor={`${id}-name`}>
           Name
-          <input
-            id={`${id}-name`}
-            name="name"
-            type="text"
-            autoComplete="name"
-            required
-          />
+          <span className="contact-field">
+            <input
+              id={`${id}-name`}
+              name="name"
+              type="text"
+              autoComplete="off"
+              readOnly={sending}
+              required
+            />
+          </span>
         </label>
         <label htmlFor={`${id}-cell`}>
           Cell (optional)
-          <input id={`${id}-cell`} name="cell" type="tel" autoComplete="tel" />
+          <span className="contact-field">
+            <input
+              id={`${id}-cell`}
+              name="cell"
+              type="tel"
+              autoComplete="off"
+              readOnly={sending}
+            />
+          </span>
         </label>
         <label htmlFor={`${id}-email`}>
           Email
-          <input
-            id={`${id}-email`}
-            name="email"
-            type="email"
-            autoComplete="email"
-            spellCheck={false}
-            required
-          />
+          <span className="contact-field">
+            <input
+              id={`${id}-email`}
+              name="email"
+              type="email"
+              autoComplete="off"
+              readOnly={sending}
+              spellCheck={false}
+              required
+            />
+          </span>
         </label>
         <label htmlFor={`${id}-message`}>
           Message
-          <textarea id={`${id}-message`} name="message" rows={4} required />
+          <span className="contact-field">
+            <textarea
+              id={`${id}-message`}
+              name="message"
+              rows={4}
+              autoComplete="off"
+              readOnly={sending}
+              required
+            />
+          </span>
         </label>
         <div className="contact-send">
-          <button className="color-button" type="submit">
-            prepare email
+          <button className="color-button" type="submit" disabled={sending}>
+            {sending ? 'sending…' : 'send message'}
           </button>
         </div>
-        <p className="contact-status" role="status">
+        <p className="contact-status" id={`${id}-status`} role="status">
           {status}
         </p>
       </form>
-    </motion.div>
+    </div>
   );
 }

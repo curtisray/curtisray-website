@@ -16,7 +16,7 @@ import { repositories } from '../data/site';
         <p>{repo.description}</p>
         <TechList items={repo.technologies} compact />
         <a
-          class="source-link"
+          class="source-link underline-link"
           href={`https://github.com/curtisray/${repo.repo}`}
           target="_blank"
           rel="noopener noreferrer"
@@ -28,7 +28,7 @@ import { repositories } from '../data/site';
   ))}
   <p class="content-note">
     See{' '}
-    <a class="source-link" href="/agent-skills">
+    <a class="source-link underline-link" href="/agent-skills">
       agent skills
     </a>{' '}
     for more on how these sites get built.

@@ -9,7 +9,11 @@ const { id } = Astro.props;
 ---
 
 <div class="contact-bar">
-  <a href={`sms:${contact.phone}`}>{contact.phoneLabel}</a>
-  <a href={`mailto:${contact.email}`}>{contact.email}</a>
+  <a class="underline-link" href={`sms:${contact.phone}`}>
+    {contact.phoneLabel}
+  </a>
+  <a class="underline-link" href={`mailto:${contact.email}`}>
+    {contact.email}
+  </a>
   <Contact id={id} />
 </div>

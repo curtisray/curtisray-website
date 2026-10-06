@@ -47,7 +47,7 @@ The bookshelf rail anchors to the right. Its open panel is capped by the space r
 
 ## Color and controls
 
-Use paper, ink, muted ink, black, and one yellow interaction accent. Colored project surfaces remain defined in project data. Rules use `--rule`; avoid introducing unrelated grays or border thicknesses.
+Use paper, ink, muted ink, black, and yellow, pink, or blue contact highlights drawn from the existing palette. Colored project surfaces remain defined in project data. Rules use `--rule`; avoid introducing unrelated grays or border thicknesses.
 
 Every interaction needs a visible keyboard focus state. Small controls have at least a 36px height, increasing to 44px on coarse pointers; icon close buttons are 44px square. Links have underlines on hover and focus. The current project link stays underlined. Preserve normal anchor navigation, modifier clicks, and deep links.
 
@@ -63,17 +63,17 @@ The personality is calm and deliberate, with no bounce or automatic decorative l
 
 The signature ease is `(0.2, 0.7, 0.2, 1)`. Use full Motion through `motion/react` for React islands and `motion` for progressive native DOM enhancement. Do not reintroduce `motion/mini`.
 
-Contact uses small position/scale changes with opacity, without measuring or animating width and height. The footer uses Motion scroll values and transforms, without React state updates on every scroll frame. The shelf content uses a small horizontal reveal.
+Contact grows its bordered overlay from the triggering button’s measured bounds, then reveals the fixed-width form with a small position change and opacity. Its chosen hover color persists as the form background. Only the absolutely positioned overlay animates dimensions; page layout stays fixed. Fields use an animated underline for keyboard and pointer focus, and autocomplete is disabled. The footer uses Motion scroll values and transforms, without React state updates on every scroll frame. The shelf content uses a small horizontal reveal.
 
-The desktop shelf width transition is an intentional, bounded exception to transform-only animation: it preserves the established accordion geometry and unsquashed content. It runs only on user interaction, for five current books. Reassess it if the collection grows or profiling on target devices shows jank. Do not spread width/height animation to other components.
+The desktop shelf width transition is an intentional, bounded exception to transform-only animation: it preserves the established accordion geometry and unsquashed content. It runs only on user interaction, for five current books. Reassess it if the collection grows or profiling on target devices shows jank. The contact overlay is the other bounded exception, to maintain a continuous button-to-form border without stretching its rule or text.
 
 Reduced motion disables spatial transitions, Lenis smoothing, and footer line motion. Touch scrolling is native. Closing, switching, or rapidly reopening controls must remain responsive. Clean up global listeners and animation subscriptions.
 
 ## Delivery and progressive enhancement
 
-Keep content, layouts, optimized images, and native disclosures in Astro. React is reserved for animated contact panels and footer lines. Contact hydrates only when opened; the footer hydrates near the viewport. Shelf animation is dynamically imported on interaction. Visitors can read, navigate, and open native disclosures without React or JavaScript.
+Keep content, layouts, optimized images, and native disclosures in Astro. React is reserved for contact form behavior and animated footer lines. Contact hydrates only when opened; the footer hydrates near the viewport. Shelf animation is dynamically imported on interaction. Visitors can read, navigate, and open native disclosures without React or JavaScript.
 
-The contact form prepares an email draft; it does not send through a backend. Required fields use browser validation. Escape restores focus, clicking or tabbing outside dismisses, and form values survive dismissal. On touch devices, opening the form focuses its close control instead of summoning the keyboard.
+The contact form posts directly to the Formspree endpoint in `src/data/site.ts`. Native POST submission remains available before hydration; React adds inline sending, success, and error feedback. Duplicate sends are blocked, failures retain the draft, and successful submissions clear the fields. Required fields use browser validation. Escape restores focus, clicking or tabbing outside dismisses, and form values survive dismissal. On touch devices, opening the form focuses its close control instead of summoning the keyboard.
 
 Keep images in `src/assets` and let Astro produce delivery sizes. Small raster logos are generated at 80px for 40px display. The original high-resolution sources are build inputs, not files visitors download. Below-fold images remain lazy.
 

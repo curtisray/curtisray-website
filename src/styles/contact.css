@@ -20,10 +20,6 @@
 .contact-bar > a {
   overflow-wrap: anywhere;
 }
-.contact-bar > a:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
 .contact {
   position: relative;
 }
@@ -47,10 +43,10 @@
 .contact-panel {
   position: absolute;
   right: 0;
-  bottom: -4px;
+  bottom: 0;
   z-index: 20;
   width: min(380px, calc(100vw - 40px));
-  background: var(--color-paper);
+  background: var(--contact-background, var(--color-paper));
   color: var(--color-ink);
   border: var(--rule);
   max-height: calc(100dvh - 40px);
@@ -60,7 +56,7 @@
 }
 .site-header .contact-panel {
   bottom: auto;
-  top: -4px;
+  top: 0;
   transform-origin: top right;
 }
 .contact-panel form {
@@ -75,6 +71,7 @@
   align-items: center;
 }
 .contact-heading .eyebrow {
+  color: color-mix(in srgb, var(--color-ink) 80%, transparent);
   font-size: var(--text-caption);
 }
 .contact-close {
@@ -94,13 +91,14 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  color: var(--color-muted);
+  color: color-mix(in srgb, var(--color-ink) 80%, transparent);
   font-size: var(--text-caption);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 .contact-panel input,
 .contact-panel textarea {
+  display: block;
   width: 100%;
   padding: var(--space-2) 0;
   border: 0;
@@ -125,7 +123,7 @@
   font-size: var(--text-caption);
   letter-spacing: 0;
   line-height: 1.5;
-  color: var(--color-muted);
+  color: color-mix(in srgb, var(--color-ink) 80%, transparent);
 }
 @media (max-width: 760px) {
   .site-header {
@@ -161,7 +159,7 @@
   display: block;
 }
 .color-button:is(:hover, :focus-visible) {
-  background: var(--color-accent);
+  background: var(--contact-highlight, var(--color-accent));
   color: var(--color-ink);
 }
 .contact-close:hover {
@@ -197,4 +195,43 @@
   .contact-bar > .contact {
     grid-row: 1;
   }
+}
+
+/* Keep the button label in place while its border grows around the form. */
+.contact[data-opening] > .contact-trigger {
+  position: relative;
+  z-index: 21;
+  border-color: transparent;
+  background: transparent;
+  color: var(--color-ink);
+  pointer-events: none;
+}
+.contact[data-opening] .contact-panel form {
+  opacity: 0;
+}
+.contact-field {
+  position: relative;
+  display: block;
+}
+.contact-field::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--color-ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--motion-standard) var(--ease-out);
+  pointer-events: none;
+}
+.contact-field:focus-within::after {
+  transform: scaleX(1);
+}
+.contact-panel input,
+.contact-panel textarea {
+  outline: none;
+  box-shadow: none;
+  border-bottom-color: color-mix(in srgb, var(--color-ink) 25%, transparent);
 }

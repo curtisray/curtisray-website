@@ -7,7 +7,7 @@ export const projects = [
   {
     id: 'aleli',
     title: 'Aleli Spangler Photography',
-    year: '2024',
+    year: '2026',
     tags: 'Client / Photography Portfolio + Web Development',
     color: '#e8552a',
     ink: '#141414',
@@ -18,7 +18,7 @@ export const projects = [
   {
     id: 'moonlight',
     title: 'Moonlight Brewing Co.',
-    year: '2024',
+    year: '2026',
     tags: 'Client / Packaging + Brand',
     color: '#141414',
     ink: '#fafafa',
@@ -40,7 +40,7 @@ export const projects = [
   {
     id: 'danchel',
     title: 'Danchel',
-    year: 'Done',
+    year: '2026',
     tags: 'Done',
     color: '#f2b8c6',
     ink: '#141414',

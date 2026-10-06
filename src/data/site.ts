@@ -4,6 +4,7 @@ import motionLogo from '../assets/logos/motion.png';
 
 export const contact = {
   email: 'curtisraymaloney@gmail.com',
+  formEndpoint: 'https://formspree.io/f/xwlvpkjn',
   phone: '+17079928080',
   phoneLabel: '+1 (707) 992-8080',
 };

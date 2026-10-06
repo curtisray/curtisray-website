@@ -46,7 +46,7 @@ Read [the design system](docs/design-system.md) before changing visual styles or
 
 The homepage combines the cloud introduction, developer links, selected work shelf, and black footer. Six developer pages live in `src/pages/`. Pages awaiting content show their coming-soon states.
 
-The contact composer prepares a `mailto:` draft in the visitor's email app; it does not send email through a backend. Direct email and SMS links are available on every page.
+The contact form posts directly to Formspree, with inline sending, success, and error states. Its public endpoint is configured in `src/data/site.ts`; no API secret or server dependency is required. Direct email and SMS links remain available on every page.
 
 ## Dependency maintenance
 

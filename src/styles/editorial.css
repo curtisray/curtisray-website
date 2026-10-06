@@ -128,7 +128,6 @@
 .source-link {
   width: fit-content;
   max-width: 100%;
-  border-bottom: var(--rule);
   font-family: var(--font-mono);
   font-size: var(--text-label);
   letter-spacing: var(--tracking-label);
@@ -183,8 +182,4 @@
   .source-link {
     font-size: var(--text-caption);
   }
-}
-
-.source-link:hover {
-  opacity: 0.7;
 }
