@@ -23,9 +23,10 @@ export const technologies = {
   lenis: { label: 'Lenis', logo: lenisLogo },
   motion: { label: 'Motion', logo: motionLogo },
   shopify: { label: 'Shopify', logo: 'shopify.svg' },
-  hydrogen: { label: 'Hydrogen + Oxygen', logo: hydrogenLogo },
+  hydrogen: { label: 'Hydrogen', logo: hydrogenLogo },
   next: { label: 'Next.js', logo: 'nextdotjs.svg' },
   three: { label: 'Three.js', logo: 'threedotjs.svg' },
+  vite: { label: 'Vite', logo: 'vite.svg' },
   gsap: { label: 'GSAP', logo: 'gsap.svg' },
   reactRouter: { label: 'React Router', logo: 'reactrouter.svg' },
   vercel: { label: 'Vercel', logo: 'vercel.svg' },
@@ -59,24 +60,42 @@ export const repositories: {
   title: string;
   description: string;
   repo: string;
+  liveUrl?: string;
   technologies: Technology[];
 }[] = [
   {
     title: 'Hopscotch website',
     description: 'Website for Hopscotch.',
     repo: 'hopscotch-website',
+    liveUrl: 'https://hopscotch.servicelab.agency',
     technologies: ['astro', 'vercel'],
   },
   {
     title: 'Curtis Ray website',
     description: 'Source for this portfolio.',
     repo: 'curtisray-website',
+    liveUrl: '/open-source-code',
     technologies: ['astro', 'tailwind', 'lenis', 'motion', 'vercel'],
   },
   {
     title: 'Pep Coffee',
-    description: 'Shopify storefront built on Hydrogen and Oxygen.',
+    description: 'Shopify storefront built on Hydrogen and hosted on Vercel.',
     repo: 'pep-coffee',
-    technologies: ['shopify', 'hydrogen', 'reactRouter', 'tailwind', 'lenis'],
+    liveUrl: 'https://pep-coffee.vercel.app',
+    technologies: [
+      'shopify',
+      'hydrogen',
+      'reactRouter',
+      'tailwind',
+      'lenis',
+      'vercel',
+    ],
+  },
+  {
+    title: 'TensorView',
+    description: 'Interactive tool for learning and visualizing tensors.',
+    repo: 'tensorview',
+    liveUrl: 'https://tensorview.curtisray.me',
+    technologies: ['three', 'vite'],
   },
 ];

@@ -12,7 +12,21 @@ import { repositories } from '../data/site';
     <article class="content-row">
       <span class="row-number">{String(i + 1).padStart(2, '0')}</span>
       <div class="row-copy">
-        <h2>{repo.title}</h2>
+        <div class="project-heading">
+          <h2>{repo.title}</h2>
+          {repo.liveUrl && (
+            <a
+              class="source-link underline-link"
+              href={repo.liveUrl}
+              target={repo.liveUrl.startsWith('/') ? undefined : '_blank'}
+              rel={
+                repo.liveUrl.startsWith('/') ? undefined : 'noopener noreferrer'
+              }
+            >
+              {repo.title.replace(/ website$/, '')} ↗
+            </a>
+          )}
+        </div>
         <p>{repo.description}</p>
         <TechList items={repo.technologies} compact />
         <a
@@ -34,3 +48,12 @@ import { repositories } from '../data/site';
     for more on how these sites get built.
   </p>
 </DeveloperLayout>
+
+<style>
+  .project-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3) var(--space-5);
+  }
+</style>
