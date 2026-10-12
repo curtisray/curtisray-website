@@ -8,6 +8,11 @@ export default defineConfig({
   site: 'https://www.curtisray.me',
   integrations: [react()],
   adapter: vercel(),
+  redirects: {
+    '/ai-preparedness': '/artificial-intelligence',
+    '/approach-and-process': '/artificial-intelligence',
+    '/learn-agentic-development': '/artificial-intelligence',
+  },
   vite: {
     plugins: [tailwindcss()],
     // Warm both Motion entry points before deferred islands request shared chunks.

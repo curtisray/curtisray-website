@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Brand from '../../components/Brand.astro';
+import Footer from '../../components/Footer.astro';
+import { projects } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { id: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+---
+
+<BaseLayout title={`${project.title} — Curtis Ray`} description={project.tags}>
+  <main
+    id="main"
+    class="project-page"
+    style={`--project-color:${project.color};--project-ink:${project.ink}`}
+  >
+    <Brand />
+    <a class="back-link underline-link" href={`/#work-${project.id}`}>
+      ← My work
+    </a>
+    <header>
+      <p class="eyebrow">{project.year}</p>
+      <h1>{project.title}</h1>
+      <p class="project-tags">{project.tags}</p>
+      {project.liveUrl && (
+        <a
+          class="live-link underline-link"
+          href={project.liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Visit {project.title} ↗
+        </a>
+      )}
+    </header>
+    <Image
+      class="project-artwork"
+      src={project.image}
+      alt={project.title}
+      widths={[600, 1000, 1600]}
+      sizes="(max-width: 760px) 90vw, 80vw"
+      loading="eager"
+    />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .project-page {
+    background: var(--project-color);
+    color: var(--project-ink);
+    padding: var(--inset);
+    min-height: 100svh;
+  }
+  .back-link {
+    display: table;
+    margin-block: var(--space-8);
+  }
+  header {
+    max-width: 1000px;
+    margin: var(--section-space) auto var(--space-8);
+  }
+  h1 {
+    font-size: var(--text-display);
+    font-weight: 500;
+    line-height: var(--leading-heading);
+    margin-block: var(--space-4);
+  }
+  .eyebrow {
+    color: inherit;
+  }
+  .project-tags,
+  .live-link,
+  .back-link {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    line-height: var(--leading-detail);
+  }
+  .live-link {
+    display: table;
+    margin-top: var(--space-5);
+  }
+  .project-artwork {
+    display: block;
+    max-width: 1000px;
+    width: 100%;
+    height: auto;
+    margin-inline: auto;
+    border: 1px solid currentColor;
+  }
+</style>

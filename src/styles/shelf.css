@@ -45,21 +45,29 @@
   overscroll-behavior-x: contain;
   scrollbar-width: thin;
 }
+.shelf-track {
+  container-type: inline-size;
+  display: flex;
+  justify-content: flex-end;
+  flex: 0 0 auto;
+  width: min(100%, calc(var(--book-count) * var(--spine) + min(560px, 36vw)));
+  height: 100%;
+}
 .work-book {
   --panel: min(560px, 36vw, calc(100cqw - var(--book-count) * var(--spine)));
   position: relative;
-  flex: 0 0 auto;
-  width: var(--spine);
+  flex: 0 0 var(--spine);
+  min-width: var(--spine);
   height: 100%;
   border-left: var(--rule);
   border-block: var(--rule);
   background: var(--book-color);
   color: var(--book-ink);
   overflow: hidden;
-  transition: width var(--motion-slow) var(--ease-out);
+  transition: flex-grow var(--motion-slow) var(--ease-out);
 }
 .work-book[open] {
-  width: calc(var(--spine) + var(--panel));
+  flex-grow: 1000;
 }
 .book-spine {
   position: absolute;
@@ -77,6 +85,16 @@
 }
 .book-spine:focus-visible {
   outline-offset: -6px;
+}
+.spine-project-link {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) and (min-width: 761px) {
+  .spine-project-link {
+    display: block;
+    position: absolute;
+    inset: 0;
+  }
 }
 .spine-label {
   font-family: var(--font-mono);
@@ -129,7 +147,7 @@
   flex: 1;
   min-height: 0;
   overflow: hidden;
-  border: var(--rule);
+  border: 1px solid var(--book-ink);
   background: var(--color-canvas);
 }
 .book-image img {
@@ -178,6 +196,12 @@
   .shelf-books {
     display: block;
     overflow: visible;
+  }
+  .shelf-track {
+    display: block;
+    width: 100%;
+    height: auto;
+    container-type: normal;
   }
   .work-book,
   .work-book[open] {

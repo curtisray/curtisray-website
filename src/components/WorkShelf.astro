@@ -19,7 +19,7 @@ import { projects } from '../data/projects';
       {projects.map((project) => (
         <a
           class="underline-link"
-          href={`#work-${project.id}`}
+          href={`/work/${project.id}`}
           data-project-link={project.id}
         >
           {project.title}
@@ -28,47 +28,57 @@ import { projects } from '../data/projects';
     </nav>
   </div>
   <div class="shelf-books">
-    {projects.map((project, i) => (
-      <details
-        id={`work-${project.id}`}
-        class="work-book"
-        name="selected-work"
-        open={i === 0}
-        style={`--book-color:${project.color};--book-ink:${project.ink}`}
-        data-project={project.id}
-      >
-        <summary class="book-spine" aria-controls={`panel-${project.id}`}>
-          <span class="spine-label">Work</span>
-          <span class="spine-title">{project.title}</span>
-          <span class="spine-rule"></span>
-          <span class="spine-year">{project.year}</span>
-          <span class="spine-rule"></span>
-          <span class="spine-label">No.</span>
-          <span class="spine-number">{String(i + 1).padStart(2, '0')}</span>
-        </summary>
-        <div class="book-panel" id={`panel-${project.id}`}>
-          <div
-            class:list={[
-              'book-image',
-              { 'book-image-contain': project.fit === 'contain' },
-            ]}
-          >
-            <Image
-              src={project.image}
-              alt={project.title}
-              width={1000}
-              widths={[400, 700, 1000]}
-              sizes="(max-width: 760px) 85vw, 36vw"
-              style={`object-fit:${project.fit};object-position:${project.position}`}
-            />
+    <div class="shelf-track">
+      {projects.map((project, i) => (
+        <details
+          id={`work-${project.id}`}
+          class="work-book"
+          name="selected-work"
+          open={i === 0}
+          style={`--book-color:${project.color};--book-ink:${project.ink}`}
+          data-project={project.id}
+        >
+          <summary class="book-spine" aria-controls={`panel-${project.id}`}>
+            <span class="spine-label">Work</span>
+            <span class="spine-title">{project.title}</span>
+            <span class="spine-rule"></span>
+            <span class="spine-year">{project.year}</span>
+            <span class="spine-rule"></span>
+            <span class="spine-label">No.</span>
+            <span class="spine-number">{String(i + 1).padStart(2, '0')}</span>
+            <a
+              class="spine-project-link"
+              href={`/work/${project.id}`}
+              tabindex="-1"
+              aria-label={`View ${project.title}`}
+            ></a>
+          </summary>
+          <div class="book-panel" id={`panel-${project.id}`}>
+            <a
+              href={`/work/${project.id}`}
+              aria-label={`View ${project.title}`}
+              class:list={[
+                'book-image',
+                { 'book-image-contain': project.fit === 'contain' },
+              ]}
+            >
+              <Image
+                src={project.image}
+                alt={project.title}
+                width={1000}
+                widths={[400, 700, 1000]}
+                sizes="(max-width: 760px) 85vw, 36vw"
+                style={`object-fit:${project.fit};object-position:${project.position}`}
+              />
+            </a>
+            <div class="book-caption">
+              <h3>{project.title}</h3>
+              <p>{project.tags}</p>
+            </div>
           </div>
-          <div class="book-caption">
-            <h3>{project.title}</h3>
-            <p>{project.tags}</p>
-          </div>
-        </div>
-      </details>
-    ))}
+        </details>
+      ))}
+    </div>
   </div>
 </section>
 <script>

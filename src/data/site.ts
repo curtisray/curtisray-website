@@ -12,10 +12,8 @@ export const contact = {
 export const developerLinks = [
   { title: 'Tech stack', href: '/tech-stack' },
   { title: 'Agent skills', href: '/agent-skills' },
-  { title: 'AI preparedness', href: '/ai-preparedness' },
+  { title: 'Artificial intelligence', href: '/artificial-intelligence' },
   { title: 'Open source code', href: '/open-source-code' },
-  { title: 'Approach & process', href: '/approach-and-process' },
-  { title: 'Learn agentic development', href: '/learn-agentic-development' },
 ];
 export const technologies = {
   astro: { label: 'Astro 7', logo: 'astro.svg' },

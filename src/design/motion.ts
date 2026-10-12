@@ -4,6 +4,7 @@ export const motionTokens = {
   standard: 0.32,
   slow: 0.56,
   ease: [0.2, 0.7, 0.2, 1] as const,
+  settleEase: [0.4, 0, 0.2, 1] as const,
 };
 export const motionStyle = [
   `--motion-quick:${motionTokens.quick}s`,

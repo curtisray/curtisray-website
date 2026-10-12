@@ -2,7 +2,8 @@ import aleli from '../assets/aleli.jpg';
 import moonlight from '../assets/moonlight.png';
 import people from '../assets/people.png';
 import danchel from '../assets/danchel.png';
-import callsafe from '../assets/callsafe.png';
+import pepCoffee from '../assets/pep-coffee.png';
+import tensorview from '../assets/tensorview.svg';
 export const projects = [
   {
     id: 'aleli',
@@ -27,6 +28,30 @@ export const projects = [
     position: 'center',
   },
   {
+    id: 'pep-coffee',
+    liveUrl: 'https://pep-coffee.vercel.app',
+    title: 'Pep Coffee',
+    year: '2026',
+    tags: 'Concept / Ecommerce + Web Development',
+    color: '#e8b21f',
+    ink: '#141414',
+    image: pepCoffee,
+    fit: 'cover',
+    position: 'center top',
+  },
+  {
+    id: 'tensorview',
+    liveUrl: 'https://tensorview.curtisray.me',
+    title: 'TensorView',
+    year: '2026',
+    tags: 'Personal / Interactive Learning + 3D Visualization',
+    color: '#6366f1',
+    ink: '#fafafa',
+    image: tensorview,
+    fit: 'cover',
+    position: 'center',
+  },
+  {
     id: 'people',
     title: 'People the App',
     year: 'In progress',
@@ -45,17 +70,6 @@ export const projects = [
     color: '#f2b8c6',
     ink: '#141414',
     image: danchel,
-    fit: 'cover',
-    position: 'center top',
-  },
-  {
-    id: 'callsafe',
-    title: 'Callsafe',
-    year: 'In progress',
-    tags: 'In progress',
-    color: '#b9d4e3',
-    ink: '#141414',
-    image: callsafe,
     fit: 'cover',
     position: 'center top',
   },
