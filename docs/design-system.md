@@ -33,7 +33,7 @@ Use the shared line-height roles: heading 1.05, lead 1.3, body 1.45, detail 1.6.
 
 Use the 4px-based `--space-*` scale for component padding, margins, and gaps. `--gutter` defines page edges, `--inset` defines editorial panels, and `--section-space` defines content row rhythm. Avoid adding a new hardcoded value when an existing role fits.
 
-The desktop composition uses 12 columns. At 760px and below, homepage artwork uses 6 columns, editorial rows stack, and the bookshelf becomes a vertical accordion. At 380px and below, the email address gets its own full-width contact row. These breakpoints are structural; keep related component rules aligned when changing one.
+The desktop composition uses 12 columns. At 760px and below, homepage artwork uses 6 columns, editorial rows stack, and the bookshelf becomes a native horizontal carousel. At 380px and below, the email address gets its own full-width contact row. These breakpoints are structural; keep related component rules aligned when changing one.
 
 Artwork dimensions, crops, and overlap offsets remain local exceptions. They describe the composition rather than the global spacing system. Keep panels and paragraph measures bounded as screens widen. Do not hide page overflow to disguise sizing defects.
 
@@ -42,8 +42,8 @@ The bookshelf rail anchors to the right. Its open panel is capped by the space r
 - rightward collapse, including the all-closed state;
 - native page scrolling over both the rail and images;
 - a single-line Aleli menu label;
-- 1px top, bottom, and left rules on desktop, with continuous outer rules on mobile;
-- native `details`/`summary` keyboard behavior and exclusive expansion.
+- 1px top, bottom, and left rules on desktop, with individual bordered cards on mobile;
+- native `details`/`summary` keyboard behavior and exclusive expansion on desktop; fully open, focusable cards on mobile.
 
 ## Color and controls
 
@@ -70,6 +70,8 @@ The contact overlay is an Astro-owned sibling of the native disclosure, with a s
 Contact grows its bordered overlay from the triggering button’s measured bounds, then reveals the fixed-width form with a small position change and opacity. Its chosen hover color persists as the form background. Only the absolutely positioned overlay animates dimensions; page layout stays fixed. Fields use an animated underline for keyboard and pointer focus, and autocomplete is disabled. The footer uses Motion scroll values and transforms, without React state updates on every scroll frame. The shelf content uses a small horizontal reveal.
 
 The desktop shelf uses a fixed-width, right-aligned track for six books. Flex growth redistributes the open panel space without moving the track’s outer edges. This bounded layout transition preserves unsquashed content. Mouse movement previews books; spine and image links open project pages. Touch and keyboard users retain native disclosures, and hover never hides keyboard focus. Reassess layout animation if the collection grows or profiling shows jank. The contact overlay is the other bounded exception, to maintain a continuous button-to-form border without stretching its rule or text.
+
+On mobile, the project text menu is hidden. Native horizontal scrolling uses center snap proximity and fixed 72vw card slots. Motion tracks the horizontal rail; each card scales from 0.82 at the edges to 1 at the center, with no easing lag or changing scroll geometry. Reduced motion keeps all cards at full size. The section remains vertically scrollable, image links open project pages, and focusing a card centers it. Visual copies buffer both ends so scrolling loops in either direction; copies have no duplicate IDs and are excluded from keyboard and assistive technology navigation. Resizing preserves the centered project.
 
 On desktop, a 2px black scroll progress line grows from the top left, replacing the root scrollbar only when its enhancement loads. It reaches full viewport height as the footer enters, clips to the footer’s top edge, and disappears within the footer. It uses a passive scroll listener and one transform write per animation frame, with geometry measured only on layout changes. It directly tracks scroll without easing or additional dependencies. At 760px and below, both the page scrollbar and progress line are hidden, and progress animation updates are skipped. Native scrolling remains available. Nested form scrollbars remain native.
 

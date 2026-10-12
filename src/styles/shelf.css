@@ -185,83 +185,60 @@
     padding: var(--space-5) var(--gutter) var(--space-8);
   }
   .shelf-links {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--space-3) var(--space-5);
-  }
-  .shelf-links a {
-    font-family: var(--font-mono);
-    font-size: var(--text-caption);
+    display: none;
   }
   .shelf-books {
     display: block;
-    overflow: visible;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: 14vw;
+    scrollbar-width: none;
+    padding-block: var(--space-3) var(--space-8);
+  }
+  .shelf-books::-webkit-scrollbar {
+    display: none;
   }
   .shelf-track {
-    display: block;
-    width: 100%;
-    height: auto;
+    --spine: 40px;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    gap: var(--space-4);
+    width: max-content;
+    height: min(72svh, 620px);
+    min-height: 400px;
+    padding-inline: 14vw;
     container-type: normal;
   }
   .work-book,
   .work-book[open] {
-    width: 100%;
-    height: auto;
-    border-left: 0;
-    border-top: var(--rule);
-    border-bottom: 0;
+    --panel: calc(72vw - var(--spine));
+    flex: 0 0 72vw;
+    width: 72vw;
+    height: 100%;
+    border: var(--rule);
+    scroll-snap-align: center;
+    transform: scale(var(--book-scale, 1));
+    transform-origin: center;
     transition: none;
   }
-  .work-book:last-child {
-    border-bottom: var(--rule);
-  }
   .book-spine {
-    position: static;
-    width: 100%;
-    height: auto;
-    min-height: 76px;
-    padding: var(--space-5);
-    flex-direction: row;
-    gap: var(--space-4);
+    padding-block: var(--space-5);
   }
   .spine-title {
-    margin: 0;
-    writing-mode: horizontal-tb;
-    white-space: normal;
-    font-size: 24px;
+    font-size: 21px;
   }
   .spine-label,
-  .spine-rule,
   .spine-year {
-    display: none;
-  }
-  .spine-number {
-    order: -1;
-    font-size: var(--text-caption);
-    flex-shrink: 0;
-  }
-  .book-spine::after {
-    content: '+';
-    margin-left: auto;
-    font-family: var(--font-mono);
-    font-size: 20px;
-  }
-  .work-book[open] .book-spine::after {
-    content: '−';
+    font-size: 10px;
   }
   .book-panel {
-    position: static;
-    width: 100%;
-    height: auto;
-    padding: 0 var(--space-5) var(--space-6);
-    gap: var(--space-5);
-  }
-  .book-image {
-    flex: auto;
-    height: min(115vw, 540px);
+    padding: var(--space-4) var(--space-4) var(--space-4) var(--space-2);
+    gap: var(--space-4);
   }
   .book-caption h3 {
-    font-size: var(--text-title);
+    font-size: clamp(24px, 7vw, 32px);
   }
   .book-caption p {
     font-size: var(--text-caption);
