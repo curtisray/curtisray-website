@@ -1,0 +1,282 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Brand from '../../components/Brand.astro';
+import Footer from '../../components/Footer.astro';
+import TechList from '../../components/TechList.astro';
+import { projects } from '../../data/projects';
+import home from '../../assets/projects/aleli/home.png';
+import nyc from '../../assets/projects/aleli/nyc.png';
+import sonoma from '../../assets/projects/aleli/sonoma.png';
+import menu from '../../assets/projects/aleli/menu.png';
+import contact from '../../assets/projects/aleli/contact.png';
+import '../../styles/aleli-project.css';
+import '../../styles/editorial.css';
+
+const project = projects.find((item) => item.id === 'aleli')!;
+const locations = [
+  {
+    title: 'New York City',
+    description:
+      'A dark, pared-back setting for character-driven headshots. Large portraits and short editorial passages introduce the work to actors and performers.',
+    image: nyc,
+    alt: 'New York City headshots page, with a black-and-white portrait beside the heading “Headshots built for stage and screen.”',
+  },
+  {
+    title: 'Sonoma County',
+    description:
+      'A lighter setting for seasonal senior portraits. Outdoor photography sits alongside a clear explanation of editing, downloads, and print rights.',
+    image: sonoma,
+    alt: 'Sonoma County portraits page, with a sunset beach portrait on a light background.',
+  },
+];
+---
+
+<BaseLayout
+  title="Aleli Spangler Photography — Curtis Ray"
+  description="Website design and development for Aleli Spangler Photography: two location experiences, considered motion, and a custom client inquiry flow."
+>
+  <main
+    id="main"
+    class="aleli-project"
+    style={`--project-color:${project.color};--project-ink:${project.ink}`}
+  >
+    <div class="aleli-cover">
+      <nav class="aleli-topbar" aria-label="Portfolio navigation">
+        <Brand />
+        <a class="aleli-label underline-link" href="/#work-aleli">
+          ← My work
+        </a>
+      </nav>
+      <header class="aleli-heading">
+        <div>
+          <p class="aleli-label">Client project / {project.year}</p>
+          <h1>
+            Aleli Spangler
+            <br />
+            Photography
+          </h1>
+        </div>
+        <div class="aleli-intro">
+          <p>
+            A home for the photographs.
+            <br />A clear path to the next shoot.
+          </p>
+          <a
+            class="aleli-label underline-link"
+            href="https://aleli-spangler.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View website ↗
+          </a>
+        </div>
+      </header>
+      <dl class="aleli-facts">
+        <div>
+          <dt>Focus</dt>
+          <dd>Photography portfolio</dd>
+        </div>
+        <div>
+          <dt>Scope</dt>
+          <dd>Website design, motion & development</dd>
+        </div>
+        <div>
+          <dt>Locations</dt>
+          <dd>New York City & Sonoma County</dd>
+        </div>
+      </dl>
+      <figure class="aleli-hero-preview">
+        <Image
+          src={home}
+          alt="Aleli’s homepage: four photographs across a dark canvas with the introduction “I’m Aleli,” below."
+          widths={[600, 1000, 1440, 2000, 2880]}
+          quality={90}
+          sizes="(max-width: 760px) 90vw, 94vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <figcaption>
+          The opening photo mosaic introduces Aleli through her work.
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="aleli-story">
+      <section
+        class="aleli-section aleli-overview"
+        aria-labelledby="overview-title"
+      >
+        <p class="aleli-label">01 / The brief</p>
+        <div class="aleli-section-copy">
+          <h2 id="overview-title">
+            One photographer.
+            <br />
+            Two different audiences.
+          </h2>
+          <p class="aleli-lead">
+            Aleli creates headshots in New York City and seasonal senior
+            portraits in Sonoma County. The website needed to bring both sides
+            of her practice together, while giving each a distinct place to
+            live.
+          </p>
+          <p>
+            The approach pairs generous photography with lightweight typography
+            and a simple route from discovering the work to getting in touch.
+          </p>
+        </div>
+      </section>
+
+      <section class="aleli-section" aria-labelledby="locations-title">
+        <p class="aleli-label">02 / The experience</p>
+        <div class="aleli-section-copy">
+          <h2 id="locations-title">
+            Different settings.
+            <br />
+            The same visual language.
+          </h2>
+          <p>
+            Shared typography, spacing, and navigation tie the location pages
+            together. Dark and light surfaces give each collection its own
+            atmosphere; yellow and green accents carry those identities through
+            navigation and inquiries.
+          </p>
+        </div>
+        <div class="aleli-locations">
+          {locations.map((location) => (
+            <figure>
+              <Image
+                src={location.image}
+                alt={location.alt}
+                widths={[400, 700, 1000, 1440, 2000]}
+                quality={90}
+                sizes="(max-width: 760px) 90vw, 45vw"
+              />
+              <figcaption>
+                <h3>{location.title}</h3>
+                <p>{location.description}</p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      <section class="aleli-section" aria-labelledby="motion-title">
+        <p class="aleli-label">03 / Motion & navigation</p>
+        <div class="aleli-section-copy">
+          <h2 id="motion-title">Movement that follows the work.</h2>
+          <p>
+            The opening photographs settle into a mosaic. Editorial copy reveals
+            as you scroll, and colored wipes connect the pages. A full-screen
+            menu pairs each destination with a photograph that changes on hover
+            or keyboard focus.
+          </p>
+          <p>
+            Entrances have matching exits, keeping the experience coherent when
+            you go back. Reduced-motion preferences skip the spatial effects.
+          </p>
+        </div>
+        <figure class="aleli-wide-preview">
+          <Image
+            src={menu}
+            alt="The full-screen menu pairs large navigation links with a photograph of Aleli holding a camera."
+            widths={[600, 1000, 1440, 2000, 2880]}
+            quality={90}
+            sizes="(max-width: 760px) 90vw, 94vw"
+          />
+          <figcaption>
+            A photographic menu, with a shared rhythm for opening, closing, and
+            changing pages.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="aleli-section" aria-labelledby="inquiry-title">
+        <p class="aleli-label">04 / Client inquiries</p>
+        <div class="aleli-section-copy">
+          <h2 id="inquiry-title">
+            From “Let’s talk”
+            <br />
+            to an organized inquiry.
+          </h2>
+          <p>
+            A four-step intake asks where the shoot will happen, what the client
+            needs, when they need it, and how to reach them. Service choices
+            adapt to the selected location.
+          </p>
+          <p>
+            Validated requests are saved to Google Sheets, with spam protection
+            through Cloudflare Turnstile. The confirmation appears after the
+            inquiry is saved, then answers common questions for that location.
+          </p>
+        </div>
+        <ol class="aleli-intake-steps" aria-label="Inquiry steps">
+          <li>
+            <span>01</span>Location
+          </li>
+          <li>
+            <span>02</span>Service
+          </li>
+          <li>
+            <span>03</span>Timing
+          </li>
+          <li>
+            <span>04</span>Contact details
+          </li>
+        </ol>
+        <figure class="aleli-wide-preview">
+          <Image
+            src={contact}
+            alt="The first inquiry screen asks “I’m in…” with choices for New York City, Sonoma County, and Somewhere Else, plus a four-part progress indicator."
+            widths={[600, 1000, 1440, 2000, 2880]}
+            quality={90}
+            sizes="(max-width: 760px) 90vw, 94vw"
+          />
+          <figcaption>
+            One decision at a time, with location-specific choices and a visible
+            path forward.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="aleli-section aleli-build" aria-labelledby="build-title">
+        <p class="aleli-label">05 / The build</p>
+        <div class="aleli-section-copy">
+          <h2 id="build-title">
+            Static pages.
+            <br />A custom inquiry backend.
+          </h2>
+          <p>
+            Astro renders the pages and optimizes the photography. Motion
+            handles the animation, Lenis smooths scrolling, and Astro’s client
+            router connects the page transitions. A Vercel Function handles
+            inquiry validation and delivery.
+          </p>
+          <div class="aleli-stack">
+            <TechList
+              items={['astro', 'tailwind', 'motion', 'lenis', 'vercel']}
+              compact
+            />
+          </div>
+          <div class="aleli-project-links">
+            <a
+              class="aleli-label underline-link"
+              href="https://aleli-spangler.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View website ↗
+            </a>
+          </div>
+        </div>
+      </section>
+      <div class="aleli-endnote">
+        <p class="aleli-label">Photography by Aleli Spangler</p>
+        <a class="aleli-label underline-link" href="/work/moonlight">
+          Next project: Moonlight Brewing Co. ↗
+        </a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

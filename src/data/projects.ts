@@ -18,6 +18,7 @@ export const projects = [
   },
   {
     id: 'moonlight',
+    previewVideo: '/videos/moonlight-brewing-preview.mp4',
     title: 'Moonlight Brewing Co.',
     year: '2026',
     tags: 'Client / Packaging + Brand',

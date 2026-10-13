@@ -6,10 +6,12 @@ import Footer from '../../components/Footer.astro';
 import { projects } from '../../data/projects';
 
 export function getStaticPaths() {
-  return projects.map((project) => ({
-    params: { id: project.id },
-    props: { project },
-  }));
+  return projects
+    .filter((project) => project.id !== 'aleli')
+    .map((project) => ({
+      params: { id: project.id },
+      props: { project },
+    }));
 }
 
 const { project } = Astro.props;

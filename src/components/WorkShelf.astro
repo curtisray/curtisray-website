@@ -70,7 +70,29 @@ import { projects } from '../data/projects';
                 sizes="(max-width: 760px) 85vw, 36vw"
                 style={`object-fit:${project.fit};object-position:${project.position}`}
               />
+              {project.previewVideo && (
+                <video
+                  class="book-preview"
+                  data-preview-src={project.previewVideo}
+                  muted
+                  loop
+                  playsinline
+                  preload="none"
+                  aria-hidden="true"
+                  style={`object-fit:${project.fit};object-position:${project.position}`}
+                />
+              )}
             </a>
+            {project.previewVideo && (
+              <button
+                type="button"
+                class="book-preview-toggle"
+                data-preview-toggle
+                hidden
+              >
+                Pause preview
+              </button>
+            )}
             <div class="book-caption">
               <h3>{project.title}</h3>
               <p>{project.tags}</p>

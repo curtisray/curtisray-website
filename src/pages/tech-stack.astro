@@ -18,4 +18,35 @@ import { stacks } from '../data/site';
       <TechList items={stack.technologies} />
     </article>
   ))}
+  <p class="content-note turnstile-note">
+    <span class="tech-icon">
+      <img
+        src="/logos/cloudflare.svg"
+        alt=""
+        width="16"
+        height="16"
+        loading="lazy"
+      />
+    </span>
+    <span>
+      Cloudflare Turnstile helps protect client inquiry forms from spam and
+      automated submissions.
+    </span>
+  </p>
 </DeveloperLayout>
+
+<style>
+  .turnstile-note {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .turnstile-note .tech-icon {
+    width: 28px;
+    height: 28px;
+  }
+  .turnstile-note img {
+    width: 16px;
+    height: 16px;
+  }
+</style>

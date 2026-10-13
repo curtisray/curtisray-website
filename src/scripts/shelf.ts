@@ -1,5 +1,6 @@
 import { motionTokens } from '../design/motion';
 import { createScrollMagnet } from './magnet';
+import { createShelfPreviews } from './shelf-previews';
 
 const shelf = document.querySelector<HTMLElement>('.work-shelf');
 if (shelf) {
@@ -15,6 +16,7 @@ if (shelf) {
   const mobile = window.matchMedia('(max-width: 760px)');
   const rail = shelf.querySelector<HTMLElement>('.shelf-books')!;
   const track = shelf.querySelector<HTMLElement>('.shelf-track')!;
+  const focusPreview = createShelfPreviews(rail, reducedMotion, signal);
   let selectedBook = books.find((book) => book.open) ?? books[0];
   let stopMobileScroll: (() => void) | undefined;
   let stopMobileMagnet: (() => void) | undefined;
@@ -46,6 +48,7 @@ if (shelf) {
       async () => {
         if (book.open && !mobile.matches) selectedBook = book;
         syncNavigation();
+        if (!mobile.matches) focusPreview(books.find((item) => item.open));
         animations.get(book)?.stop();
         if (book.open && !reducedMotion.matches && !mobile.matches) {
           const { animate } = await import('motion');
@@ -134,6 +137,7 @@ if (shelf) {
     stopMobileScroll?.();
     stopMobileMagnet?.();
     mobileResize?.disconnect();
+    focusPreview();
     track
       .querySelectorAll('[data-carousel-clone]')
       .forEach((copy) => copy.remove());
@@ -152,6 +156,7 @@ if (shelf) {
       });
       books.forEach((book) => book.setAttribute('name', 'selected-work'));
       syncNavigation();
+      focusPreview(selectedBook);
       return;
     }
     // Every card stays readable and focusable in the horizontal strip.
@@ -169,6 +174,10 @@ if (shelf) {
         copy.dataset.carouselClone = '';
         copy.setAttribute('aria-hidden', 'true');
         copy.removeAttribute('id');
+        copy.querySelectorAll('video').forEach((video) => {
+          video.removeAttribute('src');
+          video.removeAttribute('data-playing');
+        });
         copy
           .querySelectorAll('[id]')
           .forEach((item) => item.removeAttribute('id'));
@@ -176,7 +185,7 @@ if (shelf) {
           .querySelectorAll('[aria-controls]')
           .forEach((item) => item.removeAttribute('aria-controls'));
         copy
-          .querySelectorAll('a, summary')
+          .querySelectorAll('a, summary, button')
           .forEach((item) => item.setAttribute('tabindex', '-1'));
         fragment.append(copy);
       });
@@ -209,6 +218,7 @@ if (shelf) {
         );
       });
       selectedBook = books[nearest % books.length];
+      focusPreview(cards[nearest]);
       syncNavigation();
     };
     let measuredWidth = rail.clientWidth;

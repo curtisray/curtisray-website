@@ -1,0 +1,229 @@
+.aleli-project {
+  color: var(--project-ink);
+}
+.aleli-project .underline-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+}
+.aleli-cover {
+  padding: var(--gutter);
+  background: var(--project-color);
+}
+.aleli-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+.aleli-label,
+.aleli-facts dt,
+.aleli-facts dd,
+.aleli-stack,
+.aleli-intake-steps,
+.aleli-project figcaption:not(:has(h3)) {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  line-height: var(--leading-detail);
+}
+.aleli-heading {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  align-items: end;
+  gap: var(--space-8);
+  padding-block: clamp(var(--space-16), 10vw, 160px) var(--space-16);
+}
+.aleli-heading h1 {
+  margin-top: var(--space-5);
+  font-size: var(--text-display);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: var(--leading-heading);
+}
+.aleli-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+  padding-bottom: var(--space-2);
+}
+.aleli-intro > p {
+  font-size: var(--text-lead);
+  line-height: var(--leading-copy);
+}
+.aleli-facts {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 1fr;
+  gap: var(--space-6);
+  border-top: var(--rule);
+  margin: 0;
+  padding-block: var(--space-6) var(--space-10);
+}
+.aleli-facts dt {
+  margin-bottom: var(--space-2);
+}
+.aleli-facts dd {
+  margin: 0;
+}
+.aleli-project figure {
+  min-width: 0;
+  margin: 0;
+}
+.aleli-project figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid currentColor;
+}
+.aleli-project figcaption {
+  margin-top: var(--space-4);
+  max-width: 65ch;
+}
+.aleli-story {
+  padding-inline: var(--gutter);
+}
+.aleli-section {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-8) var(--space-6);
+  padding-block: clamp(var(--space-16), 8vw, 120px);
+  border-bottom: var(--rule);
+}
+.aleli-section > .aleli-label {
+  grid-column: 1 / 4;
+}
+.aleli-section-copy {
+  grid-column: 5 / 13;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+}
+.aleli-section h2 {
+  font-size: var(--text-section);
+  font-weight: 500;
+  line-height: var(--leading-heading);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.aleli-section-copy > p,
+.aleli-locations figcaption p {
+  max-width: 48ch;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  text-wrap: pretty;
+}
+.aleli-section-copy > .aleli-lead {
+  font-size: var(--text-lead);
+  line-height: var(--leading-copy);
+}
+.aleli-locations {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-8);
+  margin-top: var(--space-8);
+}
+.aleli-locations h3 {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-title);
+  font-weight: 500;
+  line-height: var(--leading-heading);
+}
+.aleli-project .aleli-wide-preview {
+  grid-column: 1 / -1;
+  margin-top: var(--space-8);
+}
+.aleli-intake-steps {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  padding: 0;
+  margin: var(--space-8) 0 0;
+  border-top: var(--rule);
+}
+.aleli-intake-steps li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-4) 0 0;
+}
+.aleli-intake-steps span {
+  color: var(--color-muted);
+}
+.aleli-stack {
+  width: 100%;
+  margin: var(--space-4) 0;
+}
+.aleli-project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5) var(--space-8);
+}
+.aleli-endnote {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  padding-block: var(--space-8);
+}
+@media (pointer: coarse) {
+  .aleli-project .underline-link {
+    min-height: 44px;
+  }
+}
+@media (max-width: 760px) {
+  .aleli-heading {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
+    padding-block: var(--space-16) var(--space-10);
+  }
+  .aleli-heading h1 {
+    font-size: clamp(2.75rem, 10vw, 4.75rem);
+  }
+  .aleli-facts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+    padding-bottom: var(--space-8);
+  }
+  .aleli-facts > div {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+  .aleli-facts dt {
+    margin: 0;
+  }
+  .aleli-section {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+    padding-block: var(--space-16);
+  }
+  .aleli-section > .aleli-label,
+  .aleli-section-copy {
+    grid-column: 1;
+  }
+  .aleli-locations {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-10);
+    margin-top: var(--space-3);
+  }
+  .aleli-project .aleli-wide-preview {
+    margin-top: var(--space-3);
+  }
+  .aleli-intake-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: var(--space-3);
+    gap: var(--space-4);
+  }
+  .aleli-label,
+  .aleli-facts dt,
+  .aleli-facts dd,
+  .aleli-stack,
+  .aleli-intake-steps,
+  .aleli-project figcaption:not(:has(h3)) {
+    font-size: var(--text-caption);
+  }
+}

@@ -1,6 +1,7 @@
 import hydrogenLogo from '../assets/logos/hydrogen.png';
 import lenisLogo from '../assets/logos/lenis.png';
 import motionLogo from '../assets/logos/motion.png';
+import googleSheetsLogo from '../assets/logos/google-sheets.png';
 
 export const contact = {
   email: 'curtisraymaloney@gmail.com',
@@ -28,6 +29,8 @@ export const technologies = {
   gsap: { label: 'GSAP', logo: 'gsap.svg' },
   reactRouter: { label: 'React Router', logo: 'reactrouter.svg' },
   vercel: { label: 'Vercel', logo: 'vercel.svg' },
+  googleSheets: { label: 'Google Sheets', logo: googleSheetsLogo },
+  turnstile: { label: 'Cloudflare Turnstile', logo: 'cloudflare.svg' },
 };
 export type Technology = keyof typeof technologies;
 export const stacks: {
@@ -45,13 +48,13 @@ export const stacks: {
     title: 'Portfolio',
     description:
       "Optimized for load time and image quality. Astro's island architecture ships minimal JavaScript, paired with smooth scrolling and lightweight animation.",
-    technologies: ['astro', 'tailwind', 'lenis', 'motion'],
+    technologies: ['astro', 'tailwind', 'lenis', 'motion', 'vercel'],
   },
   {
     title: 'Experience',
     description:
       'Designed for immersive, interactive work. Real-time 3D and precisely sequenced animation on a performant Next.js foundation.',
-    technologies: ['next', 'three', 'gsap'],
+    technologies: ['next', 'three', 'gsap', 'vercel'],
   },
 ];
 export const repositories: {

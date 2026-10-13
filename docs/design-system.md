@@ -39,6 +39,8 @@ On mobile, the introduction (including its measured header), developer overview,
 
 Artwork dimensions, crops, and overlap offsets remain local exceptions. They describe the composition rather than the global spacing system. Keep panels and paragraph measures bounded as screens widen. Do not hide page overflow to disguise sizing defects.
 
+The Aleli case study has a dedicated `/work/aleli` route and feature styles in `aleli-project.css`. Its project-colored cover leads into white editorial sections, numbered annotations, and bordered screenshots captured from the client site at 2× pixel density (2880 × 2000). Screenshots live in `src/assets/projects/aleli`, with responsive Astro output up to 2880px and quality 90 to preserve fine text. Reuse `TechList` for stack logos. Credit Aleli for the photography and describe implemented features without inventing performance or business results. Link the website; keep the private repository unlinked.
+
 The bookshelf rail anchors to the right. Its open panel is capped by the space remaining after all spines; `--book-count` comes from project data. Preserve:
 
 - rightward collapse, including the all-closed state;
@@ -88,6 +90,8 @@ Keep content, layouts, optimized images, and native disclosures in Astro. React 
 The contact form posts directly to the Formspree endpoint in `src/data/site.ts`. Native POST submission remains available before hydration; React adds inline sending, success, and error feedback. Duplicate sends are blocked, failures retain the draft, and successful submissions clear the fields. Required fields use browser validation. Escape restores focus, clicking or tabbing outside dismisses, and form values survive dismissal. On touch devices, opening the form focuses its close control instead of summoning the keyboard.
 
 Keep images in `src/assets` and let Astro produce delivery sizes. Small raster logos are generated at 80px for 40px display. The original high-resolution sources are build inputs, not files visitors download. Below-fold images remain lazy.
+
+Shelf video previews use browser-ready MP4 files in `public/videos`, configured through project data. Only the focused, visible card loads and plays its muted inline loop, including carousel copies. A pause/play control stays outside the project link. Switching cards, leaving the shelf, or hiding the tab pauses playback; reduced motion and unavailable playback retain the optimized static image.
 
 ## Routine checks
 

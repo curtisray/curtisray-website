@@ -144,6 +144,7 @@
   gap: var(--space-5);
 }
 .book-image {
+  position: relative;
   flex: 1;
   min-height: 0;
   overflow: hidden;
@@ -158,6 +159,40 @@
 .book-image-contain {
   padding: 6%;
   background: var(--book-color);
+}
+.book-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  background: var(--book-color);
+}
+.book-image-contain .book-preview {
+  padding: 6%;
+}
+.book-preview[data-playing] {
+  opacity: 1;
+}
+.book-preview-toggle {
+  position: absolute;
+  top: calc(var(--space-6) + var(--space-2));
+  right: calc(var(--space-7) + var(--space-2));
+  z-index: 1;
+  min-height: 36px;
+  padding: var(--space-2);
+  border: 1px solid var(--book-ink);
+  color: var(--book-ink);
+  background: var(--book-color);
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  cursor: pointer;
+}
+@media (pointer: coarse) {
+  .book-preview-toggle {
+    min-height: 44px;
+  }
 }
 .book-caption {
   display: flex;
