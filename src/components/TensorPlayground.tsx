@@ -13,11 +13,9 @@ export default function TensorPlayground({ fallback }: { fallback: string }) {
   const pose = useRef({ ...initial });
   const stop = useRef<(() => void) | null>(null);
   const drag = useRef<{
-    x: number;
-    y: number;
+    pointerId: number;
     lastX: number;
     lastY: number;
-    active: boolean;
   } | null>(null);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -112,53 +110,48 @@ export default function TensorPlayground({ fallback }: { fallback: string }) {
           if (event.key === 'ArrowDown') pose.current.x += 0.15;
           draw();
         }}
-        onPointerDown={(event) => {
-          if (!ready || event.button !== 0) return;
-          stop.current?.();
-          scene.current?.stopRotation();
-          if (event.pointerType === 'mouse')
-            event.currentTarget.setPointerCapture(event.pointerId);
-          drag.current = {
-            x: event.clientX,
-            y: event.clientY,
-            lastX: event.clientX,
-            lastY: event.clientY,
-            active: event.pointerType === 'mouse',
-          };
-        }}
-        onPointerMove={(event) => {
-          const current = drag.current;
-          if (!current) return;
-          if (!current.active) {
-            const dx = Math.abs(event.clientX - current.x),
-              dy = Math.abs(event.clientY - current.y);
-            if (dy > dx && dy > 8) {
-              drag.current = null;
-              return;
-            }
-            if (dx < 8) return;
-            current.active = true;
-            event.currentTarget.setPointerCapture(event.pointerId);
-          }
-          scene.current?.rotateBy(
-            (event.clientY - current.lastY) * 0.009,
-            (event.clientX - current.lastX) * 0.009,
-            !prefersReducedMotion(),
-          );
-          current.lastX = event.clientX;
-          current.lastY = event.clientY;
-        }}
-        onPointerUp={() => {
-          drag.current = null;
-        }}
-        onPointerCancel={() => {
-          scene.current?.stopRotation();
-          drag.current = null;
-        }}
-        onLostPointerCapture={() => {
-          drag.current = null;
-        }}
       >
+        {ready && (
+          <div
+            className="tensor-drag-zone"
+            aria-hidden="true"
+            onPointerDown={(event) => {
+              if (!ready || event.button !== 0 || !event.isPrimary) return;
+              stop.current?.();
+              scene.current?.stopRotation();
+              event.currentTarget.setPointerCapture(event.pointerId);
+              drag.current = {
+                pointerId: event.pointerId,
+                lastX: event.clientX,
+                lastY: event.clientY,
+              };
+            }}
+            onPointerMove={(event) => {
+              const current = drag.current;
+              if (!current || current.pointerId !== event.pointerId) return;
+              scene.current?.rotateBy(
+                (event.clientY - current.lastY) * 0.009,
+                (event.clientX - current.lastX) * 0.009,
+                !prefersReducedMotion(),
+              );
+              current.lastX = event.clientX;
+              current.lastY = event.clientY;
+            }}
+            onPointerUp={(event) => {
+              if (drag.current?.pointerId !== event.pointerId) return;
+              drag.current = null;
+            }}
+            onPointerCancel={(event) => {
+              if (drag.current?.pointerId !== event.pointerId) return;
+              scene.current?.stopRotation();
+              drag.current = null;
+            }}
+            onLostPointerCapture={(event) => {
+              if (drag.current?.pointerId !== event.pointerId) return;
+              drag.current = null;
+            }}
+          />
+        )}
         {!ready && (
           <img
             className="tensor-fallback"
@@ -197,7 +190,7 @@ export default function TensorPlayground({ fallback }: { fallback: string }) {
       <p id="tensor-help" className="tensor-help" aria-live="polite">
         {failed
           ? 'The 3D preview is unavailable here. Explore the full app using the link above.'
-          : 'Drag to rotate. Use the slider to pull the layers apart. Keyboard: focus the cube and use arrow keys.'}
+          : 'Drag the cube to rotate; scroll around it to move down the page. Use the slider to separate layers. Keyboard: focus the cube and use arrow keys.'}
       </p>
     </div>
   );

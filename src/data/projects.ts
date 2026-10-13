@@ -3,7 +3,7 @@ import moonlight from '../assets/moonlight.png';
 import people from '../assets/people.png';
 import danchel from '../assets/danchel.png';
 import pepCoffee from '../assets/pep-coffee.png';
-import tensorview from '../assets/tensorview.svg';
+import tensorview from '../assets/projects/tensorview/cube.png';
 export const projects = [
   {
     id: 'aleli',
@@ -49,7 +49,7 @@ export const projects = [
     color: '#6366f1',
     ink: '#fafafa',
     image: tensorview,
-    fit: 'cover',
+    fit: 'contain',
     position: 'center',
   },
   {
