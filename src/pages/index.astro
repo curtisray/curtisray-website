@@ -60,7 +60,16 @@ import meadow from '../assets/meadow.png';
         </div>
       </section>
       <section id="work" class="developer-overview" aria-label="For developers">
-        <Image class="overview-paper" src={gridPaper} alt="" width={574} />
+        <div class="overview-overlay">
+          <Image class="overview-paper" src={gridPaper} alt="" width={574} />
+          <div class="overview-copy">
+            <p>
+              I can keep projects moving quickly and adapt as things change. I
+              like clear problems, effective solutions, and seeing work through
+              end to end.
+            </p>
+          </div>
+        </div>
         <Image
           class="overview-meadow"
           src={meadow}
@@ -77,13 +86,6 @@ import meadow from '../assets/meadow.png';
             </a>
           ))}
         </nav>
-        <div class="overview-copy">
-          <p>
-            I can keep projects moving quickly and adapt as things change. I
-            like clear problems, effective solutions, and seeing work through
-            end to end.
-          </p>
-        </div>
       </section>
       <WorkShelf />
     </main>

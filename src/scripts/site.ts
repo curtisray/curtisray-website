@@ -1,6 +1,5 @@
 import Lenis from 'lenis';
-import { cubicBezier } from 'motion';
-import { motionTokens } from '../design/motion';
+import { createScrollMagnet } from './magnet';
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = window.matchMedia('(pointer: fine)');
@@ -14,112 +13,55 @@ const sectionStarts = document.querySelector('.hero')
       ),
     ]
   : [];
-let settleTimer: ReturnType<typeof setTimeout> | undefined;
-let wheelIntent = false;
-let snapping = false;
-let pointerDown = false;
-
-function clearMagnet() {
-  clearTimeout(settleTimer);
-  if (snapping) lenis?.scrollTo(window.scrollY, { immediate: true });
-  wheelIntent = false;
-  snapping = false;
-}
-
-function settleSection() {
-  if (
-    !lenis ||
-    !wheelIntent ||
-    snapping ||
-    pointerDown ||
-    !sectionStarts.length
-  )
-    return;
-  wheelIntent = false;
-  const active = document.activeElement;
-  if (
-    active?.closest(
-      'input, textarea, select, [contenteditable], [data-lenis-prevent]',
-    )
-  )
-    return;
-  const maximum = document.documentElement.scrollHeight - innerHeight;
-  const targets = [
-    0,
-    ...sectionStarts.map((section) =>
-      Math.min(maximum, section.getBoundingClientRect().top + scrollY),
-    ),
-  ];
-  const nearest = targets.reduce((best, target) =>
-    Math.abs(target - scrollY) < Math.abs(best - scrollY) ? target : best,
-  );
-  const distance = Math.abs(nearest - scrollY);
-  // Only the final few pixels attract: never pull through a section's content.
-  if (distance < 2 || distance > Math.min(80, innerHeight * 0.08)) return;
-  snapping = true;
-  lenis.scrollTo(nearest, {
-    duration: motionTokens.slow * 2,
-    easing: cubicBezier(...motionTokens.settleEase),
-    lock: false,
-    onComplete: () => {
-      snapping = false;
-    },
-  });
-}
-
-window.addEventListener(
-  'wheel',
-  (event) => {
-    if (
-      !lenis ||
-      innerWidth <= 760 ||
-      event.ctrlKey ||
-      Math.abs(event.deltaX) > Math.abs(event.deltaY)
-    )
-      return;
-    const target = event.target as Element;
-    if (
-      target.closest(
-        'input, textarea, select, [contenteditable], [data-lenis-prevent]',
-      )
-    )
-      return;
-    // A new wheel gesture always takes control back from a settling animation.
-    snapping = false;
-    wheelIntent = true;
-    clearTimeout(settleTimer);
-    settleTimer = setTimeout(settleSection, 200);
+const mobile = matchMedia('(max-width: 760px)');
+const header = document.querySelector<HTMLElement>('.site-header');
+const surface = document.querySelector<HTMLElement>('.page-surface');
+const headerResize = new ResizeObserver(() => {
+  if (header && surface)
+    surface.style.setProperty(
+      '--mobile-header-height',
+      `${header.offsetHeight}px`,
+    );
+});
+if (header) headerResize.observe(header);
+const destroyMagnet = createScrollMagnet({
+  container: window,
+  axis: 'y',
+  enabled: () => sectionStarts.length > 0 && !reducedMotion.matches,
+  targets: () => {
+    const maximum = document.documentElement.scrollHeight - innerHeight;
+    return [
+      0,
+      ...sectionStarts.map((section) =>
+        Math.max(
+          0,
+          Math.min(maximum, section.getBoundingClientRect().top + scrollY),
+        ),
+      ),
+    ];
   },
-  { signal, passive: true },
-);
-window.addEventListener(
-  'scroll',
-  () => {
-    if (!wheelIntent || snapping) return;
-    clearTimeout(settleTimer);
-    settleTimer = setTimeout(settleSection, 160);
+  range: () => {
+    // Tall content remains freely scrollable, including zoomed or short screens.
+    const current = [
+      ...document.querySelectorAll<HTMLElement>(
+        '.hero, .developer-overview, .work-shelf, .site-footer-full',
+      ),
+    ].find((section) => {
+      const rect = section.getBoundingClientRect();
+      return rect.top <= 1 && rect.bottom > 1;
+    });
+    return mobile.matches &&
+      (!current || current.offsetHeight <= innerHeight + 1)
+      ? Infinity
+      : Math.min(80, innerHeight * 0.08);
   },
-  { signal, passive: true },
-);
-window.addEventListener(
-  'pointerdown',
-  () => {
-    pointerDown = true;
-    clearMagnet();
+  write: (position) => {
+    if (lenis) lenis.scrollTo(position, { immediate: true });
+    else window.scrollTo({ top: position, behavior: 'instant' });
   },
-  { signal, passive: true },
-);
-window.addEventListener(
-  'pointerup',
-  () => {
-    pointerDown = false;
-  },
-  { signal, passive: true },
-);
-window.addEventListener('keydown', clearMagnet, { signal });
+});
 
 function syncScrolling() {
-  clearMagnet();
   lenis?.destroy();
   // Touch scrolling stays native; wheel scrolling retains the site's Lenis feel.
   lenis =
@@ -133,7 +75,6 @@ finePointer.addEventListener('change', syncScrolling, { signal });
 window.addEventListener(
   'pagehide',
   () => {
-    clearMagnet();
     lenis?.destroy();
   },
   { signal },
@@ -148,7 +89,8 @@ window.addEventListener(
 
 if (import.meta.hot)
   import.meta.hot.dispose(() => {
-    clearMagnet();
     lenis?.destroy();
+    destroyMagnet();
+    headerResize.disconnect();
     controller.abort();
   });

@@ -5,7 +5,7 @@ The visual identity is editorial: Garamond copy, monospaced annotations, a handw
 ## Sources of truth
 
 - `src/styles/tokens.css`: type families, semantic colors, spacing, text sizes, line heights, and border rules.
-- `src/design/motion.ts`: durations and easing. `BaseLayout.astro` derives CSS variables from these same values.
+- `src/design/motion.ts`: durations and easing. `BaseLayout.astro` derives CSS variables from these same values. `src/scripts/magnet.ts` owns the shared interruptible scroll settling for pages and the carousel.
 - `src/styles/fonts.css`: self-hosted Latin WOFF2 fonts, with swap rendering. Preload only the normal Garamond face.
 - `src/styles/global.css`: resets, focus, brand, shared link behavior, and reduced-motion overrides.
 - `contact.css`, `home.css`, `shelf.css`, `footer.css`, `editorial.css`: feature styles imported by their owning Astro component or layout.
@@ -34,6 +34,8 @@ Use the shared line-height roles: heading 1.05, lead 1.3, body 1.45, detail 1.6.
 Use the 4px-based `--space-*` scale for component padding, margins, and gaps. `--gutter` defines page edges, `--inset` defines editorial panels, and `--section-space` defines content row rhythm. Avoid adding a new hardcoded value when an existing role fits.
 
 The desktop composition uses 12 columns. At 760px and below, homepage artwork uses 6 columns, editorial rows stack, and the bookshelf becomes a native horizontal carousel. At 380px and below, the email address gets its own full-width contact row. These breakpoints are structural; keep related component rules aligned when changing one.
+
+On mobile, the introduction (including its measured header), developer overview, and work shelf each occupy one small viewport height. Grid rows allocate the available space to artwork and copy; short screens may grow to keep content readable. The overview text overlays the paper image with equal 20px top, bottom, and left insets.
 
 Artwork dimensions, crops, and overlap offsets remain local exceptions. They describe the composition rather than the global spacing system. Keep panels and paragraph measures bounded as screens widen. Do not hide page overflow to disguise sizing defects.
 
@@ -67,7 +69,7 @@ The homepage entrance reveals the sky from right to left over 0.56s. At 0.48s, t
 
 The contact overlay is an Astro-owned sibling of the native disclosure, with a stable content wrapper. React owns only the form, so animation styles do not interfere with hydration and Safari does not need to hide an animated island inside a closed disclosure. Closing hides the whole overlay before restoring focus.
 
-Contact grows its bordered overlay from the triggering button’s measured bounds, then reveals the fixed-width form with a small position change and opacity. Its chosen hover color persists as the form background. Only the absolutely positioned overlay animates dimensions; page layout stays fixed. Fields use an animated underline for keyboard and pointer focus, and autocomplete is disabled. The footer uses Motion scroll values and transforms, without React state updates on every scroll frame. The shelf content uses a small horizontal reveal.
+Contact grows its bordered overlay from the triggering button’s measured bounds, then reveals the fixed-width form with a small position change and opacity. Its chosen hover color persists as the form background. Only the absolutely positioned overlay animates dimensions; page layout stays fixed. Fields use an animated underline for keyboard and pointer focus, and autocomplete is disabled. The footer uses Motion scroll values and transforms, without React state updates on every scroll frame. Its decorative lines are clipped at the topmost pixel so the black footer meets the desktop bookshelf without a white seam. The shelf content uses a small horizontal reveal.
 
 The desktop shelf uses a fixed-width, right-aligned track for six books. Flex growth redistributes the open panel space without moving the track’s outer edges. This bounded layout transition preserves unsquashed content. Mouse movement previews books; spine and image links open project pages. Touch and keyboard users retain native disclosures, and hover never hides keyboard focus. Reassess layout animation if the collection grows or profiling shows jank. The contact overlay is the other bounded exception, to maintain a continuous button-to-form border without stretching its rule or text.
 
@@ -75,7 +77,7 @@ On mobile, the project text menu is hidden. Native horizontal scrolling uses fix
 
 On desktop, a 2px black scroll progress line grows from the top left, replacing the root scrollbar only when its enhancement loads. It reaches full viewport height as the footer enters, clips to the footer’s top edge, and disappears within the footer. It uses a passive scroll listener and one transform write per animation frame, with geometry measured only on layout changes. It directly tracks scroll without easing or additional dependencies. At 760px and below, both the page scrollbar and progress line are hidden, and progress animation updates are skipped. Native scrolling remains available. Nested form scrollbars remain native.
 
-On the homepage, desktop wheel scrolling gently settles a section into frame only within 80px (or 8% of viewport height) of its start. The pull takes 1.12s with the shared settle easing, remains interruptible, and skips touch, keyboard scrolling, form interaction, and reduced motion. Longer sections remain freely scrollable.
+Homepage sections and the mobile carousel share one magnet implementation: wait 180ms after movement ends, then pull toward the nearest frame over 1.12s with the shared settle easing. Held touches and pointers delay settling; new input interrupts it. Mobile viewport sections settle to the nearest section start. Desktop sections and content taller than the screen attract only within 80px (or 8% of viewport height), preserving access to longer content. Page settling skips keyboard scrolling, form interaction, and reduced motion; the carousel centers immediately with reduced motion.
 
 Reduced motion disables spatial transitions, Lenis smoothing, and footer line motion. Touch scrolling is native. Closing, switching, or rapidly reopening controls must remain responsive. Clean up global listeners and animation subscriptions.
 

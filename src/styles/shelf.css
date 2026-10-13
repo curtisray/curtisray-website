@@ -176,9 +176,10 @@
 }
 @media (max-width: 760px) {
   .work-shelf {
-    display: block;
-    height: auto;
-    min-height: 0;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    height: 100svh;
+    min-height: 440px;
     padding-top: var(--space-5);
   }
   .shelf-index {
@@ -188,6 +189,7 @@
     display: none;
   }
   .shelf-books {
+    height: 100%;
     display: block;
     overflow-x: auto;
     overflow-y: hidden;
@@ -209,8 +211,8 @@
     justify-content: flex-start;
     gap: var(--space-4);
     width: max-content;
-    height: min(72svh, 620px);
-    min-height: 400px;
+    height: 100%;
+    min-height: 0;
     padding-inline: 14vw;
     container-type: normal;
   }
@@ -245,6 +247,20 @@
   }
   .book-caption p {
     font-size: var(--text-caption);
+  }
+}
+@media (max-width: 760px) and (max-height: 700px) {
+  .book-spine .spine-label,
+  .book-spine .spine-rule,
+  .book-spine .spine-year {
+    display: none;
+  }
+  .spine-title {
+    margin-top: 0;
+    font-size: 18px;
+  }
+  .spine-number {
+    margin-top: auto;
   }
 }
 
