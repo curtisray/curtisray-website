@@ -1,0 +1,284 @@
+.tensor-project {
+  color: var(--color-ink);
+}
+.tensor-cover {
+  background: #6366f1;
+  color: #fafafa;
+  padding: var(--gutter);
+}
+.tensor-topbar,
+.tensor-endnote {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-6);
+}
+.tensor-label,
+.tensor-help,
+.tensor-controls,
+.tensor-project figcaption,
+.tensor-progression p {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  line-height: var(--leading-detail);
+}
+.tensor-project .underline-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+}
+.tensor-heading {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: var(--space-8);
+  padding-block: clamp(64px, 8vw, 120px) var(--space-12);
+  align-items: end;
+}
+.tensor-heading h1 {
+  font-size: var(--text-display);
+  line-height: var(--leading-heading);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  margin-block: var(--space-5) var(--space-3);
+}
+.tensor-tagline,
+.tensor-intro p {
+  font-size: var(--text-lead);
+  line-height: var(--leading-copy);
+}
+.tensor-intro {
+  max-width: 38ch;
+  display: grid;
+  gap: var(--space-5);
+}
+.tensor-playground {
+  border: 1px solid currentColor;
+}
+.tensor-stage {
+  height: clamp(320px, 42vw, 620px);
+  position: relative;
+  touch-action: pan-y;
+  cursor: grab;
+  background: radial-gradient(ellipse at center, #8183f8 0%, #575ad9 100%);
+}
+.tensor-stage:active {
+  cursor: grabbing;
+}
+.tensor-stage canvas {
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+.tensor-stage-label {
+  position: absolute;
+  top: var(--space-6);
+  left: var(--space-6);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  pointer-events: none;
+}
+.tensor-fallback {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: var(--space-8);
+}
+.tensor-controls {
+  border-top: 1px solid currentColor;
+  padding: var(--space-5) var(--space-6);
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) 2fr auto;
+  align-items: center;
+  gap: var(--space-6);
+}
+.tensor-controls label {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: space-between;
+}
+.tensor-controls label span {
+  font-variant-numeric: tabular-nums;
+}
+.tensor-controls input {
+  width: 100%;
+  min-width: 0;
+  min-height: 36px;
+  accent-color: #fafafa;
+  cursor: pointer;
+}
+.tensor-controls button {
+  min-height: 36px;
+  color: inherit;
+  border: 1px solid currentColor;
+  background: transparent;
+  padding: var(--space-2) var(--space-4);
+  font: inherit;
+  cursor: pointer;
+}
+.tensor-controls button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.tensor-help {
+  padding: 0 var(--space-6) var(--space-5);
+  max-width: 90ch;
+  font-size: var(--text-caption);
+}
+.tensor-preview-note {
+  margin-top: var(--space-4);
+}
+.tensor-story {
+  padding-inline: var(--gutter);
+}
+.tensor-section {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-8) var(--space-6);
+  padding-block: clamp(64px, 8vw, 120px);
+  border-bottom: var(--rule);
+}
+.tensor-section > .tensor-label {
+  grid-column: 1/4;
+}
+.tensor-copy {
+  grid-column: 5/13;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+}
+.tensor-copy h2 {
+  font-size: var(--text-section);
+  font-weight: 500;
+  line-height: var(--leading-heading);
+  letter-spacing: -0.015em;
+}
+.tensor-copy > p {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  max-width: 48ch;
+}
+.tensor-project .tensor-wide {
+  grid-column: 1/-1;
+  margin: var(--space-8) 0 0;
+  min-width: 0;
+}
+.tensor-wide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: var(--rule);
+}
+.tensor-project figcaption {
+  margin-top: var(--space-4);
+}
+.tensor-progression {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  padding: 0;
+  margin: var(--space-8) 0 0;
+  border-top: var(--rule);
+}
+.tensor-progression li {
+  padding: var(--space-6);
+  border-right: var(--rule);
+}
+.tensor-progression li:first-child {
+  padding-left: 0;
+}
+.tensor-progression li:last-child {
+  border: 0;
+}
+.tensor-symbol {
+  display: block;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  font-size: 72px;
+  color: #6366f1;
+  margin-bottom: var(--space-8);
+}
+.tensor-progression h3 {
+  font-weight: 500;
+  font-size: var(--text-title);
+  margin-bottom: var(--space-2);
+}
+.tensor-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  margin-top: var(--space-4);
+}
+.tensor-endnote {
+  flex-wrap: wrap;
+  padding-block: var(--space-8);
+}
+@media (pointer: coarse) {
+  .tensor-project .underline-link,
+  .tensor-controls button,
+  .tensor-controls input {
+    min-height: 44px;
+  }
+}
+@media (max-width: 760px) {
+  .tensor-heading {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+    padding-block: var(--space-16) var(--space-8);
+  }
+  .tensor-heading h1 {
+    font-size: clamp(2.75rem, 12vw, 5rem);
+  }
+  .tensor-controls {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-3) var(--space-4);
+    padding: var(--space-4);
+  }
+  .tensor-controls label {
+    grid-column: 1/-1;
+  }
+  .tensor-controls input,
+  .tensor-controls button {
+    min-height: 44px;
+  }
+  .tensor-help {
+    padding: 0 var(--space-4) var(--space-4);
+  }
+  .tensor-label,
+  .tensor-controls,
+  .tensor-project figcaption,
+  .tensor-progression p {
+    font-size: var(--text-caption);
+  }
+  .tensor-section {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+    padding-block: var(--space-16);
+  }
+  .tensor-section > .tensor-label,
+  .tensor-copy {
+    grid-column: 1;
+  }
+  .tensor-project .tensor-wide {
+    margin-top: var(--space-3);
+  }
+  .tensor-progression {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .tensor-progression li {
+    padding: var(--space-5) 0;
+  }
+  .tensor-progression li:nth-child(even) {
+    padding-left: var(--space-5);
+    border: 0;
+  }
+  .tensor-progression li:nth-child(-n + 2) {
+    border-bottom: var(--rule);
+  }
+  .tensor-symbol {
+    margin-bottom: var(--space-4);
+  }
+}

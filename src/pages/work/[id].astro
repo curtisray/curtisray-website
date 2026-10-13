@@ -7,7 +7,7 @@ import { projects } from '../../data/projects';
 
 export function getStaticPaths() {
   return projects
-    .filter((project) => project.id !== 'aleli')
+    .filter((project) => !['aleli', 'tensorview'].includes(project.id))
     .map((project) => ({
       params: { id: project.id },
       props: { project },

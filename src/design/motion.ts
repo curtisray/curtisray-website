@@ -1,5 +1,6 @@
 /** Calm, deliberate motion. Durations are seconds; CSS variables derive from these values. */
 export const motionTokens = {
+  orbitDamping: 0.06,
   quick: 0.16,
   standard: 0.32,
   slow: 0.56,

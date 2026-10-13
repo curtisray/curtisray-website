@@ -1,0 +1,212 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Brand from '../../components/Brand.astro';
+import Footer from '../../components/Footer.astro';
+import TechList from '../../components/TechList.astro';
+import TensorPlayground from '../../components/TensorPlayground';
+import fallback from '../../assets/tensorview.svg';
+import explorer from '../../assets/projects/tensorview/explorer.png';
+import learning from '../../assets/projects/tensorview/learning.png';
+import '../../styles/editorial.css';
+import '../../styles/tensorview-project.css';
+---
+
+<BaseLayout
+  title="TensorView — Curtis Ray"
+  description="An interactive tool for learning and visualizing tensors. Explore the design, try a small 3D preview, and see how TensorView connects numbers to space."
+>
+  <main id="main" class="tensor-project">
+    <div class="tensor-cover">
+      <nav class="tensor-topbar" aria-label="Portfolio navigation">
+        <Brand />
+        <a class="tensor-label underline-link" href="/#work-tensorview">
+          ← My work
+        </a>
+      </nav>
+      <header class="tensor-heading">
+        <div>
+          <p class="tensor-label">Personal project / 2026</p>
+          <h1>TensorView</h1>
+          <p class="tensor-tagline">Making tensors tangible.</p>
+        </div>
+        <div class="tensor-intro">
+          <p>
+            A tool for learning and visualizing tensors. Turn an array of
+            numbers into something you can see, move, and understand.
+          </p>
+          <a
+            class="tensor-label underline-link"
+            href="https://tensorview.curtisray.me"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open TensorView ↗
+          </a>
+        </div>
+      </header>
+      <TensorPlayground fallback={fallback.src} client:visible />
+      <p class="tensor-preview-note tensor-label">
+        A little piece to play with. The full explorer and lessons live in
+        TensorView.
+      </p>
+    </div>
+    <div class="tensor-story">
+      <section class="tensor-section" aria-labelledby="idea-title">
+        <p class="tensor-label">01 / The idea</p>
+        <div class="tensor-copy">
+          <h2 id="idea-title">
+            From a number
+            <br />
+            to a space.
+          </h2>
+          <p>
+            Tensors can feel abstract when you meet them as notation. TensorView
+            gives those numbers a shape, starting with a single value and
+            building toward a three-dimensional array.
+          </p>
+          <p>
+            Color reveals the values. Layers reveal the structure. Changing a
+            number shows how the representations relate.
+          </p>
+        </div>
+        <ol class="tensor-progression" aria-label="From scalar to tensor">
+          <li>
+            <span class="tensor-symbol" aria-hidden="true">
+              •
+            </span>
+            <h3>Scalar</h3>
+            <p>One value.</p>
+          </li>
+          <li>
+            <span class="tensor-symbol" aria-hidden="true">
+              →
+            </span>
+            <h3>Vector</h3>
+            <p>A line of values.</p>
+          </li>
+          <li>
+            <span class="tensor-symbol" aria-hidden="true">
+              ▦
+            </span>
+            <h3>Matrix</h3>
+            <p>A grid of values.</p>
+          </li>
+          <li>
+            <svg class="tensor-symbol" viewBox="0 0 80 80" aria-hidden="true">
+              <g fill="none" stroke="currentColor" stroke-width="1">
+                <path d="M40 8 70 25 70 58 40 75 10 58 10 25Z M10 25 40 42 70 25 M40 42V75 M25 17 55 34V67 M55 17 25 34V67 M10 36 40 53 70 36 M10 47 40 64 70 47" />
+              </g>
+            </svg>
+            <h3>Tensor</h3>
+            <p>A stack of grids.</p>
+          </li>
+        </ol>
+      </section>
+      <section class="tensor-section" aria-labelledby="explorer-title">
+        <p class="tensor-label">02 / The explorer</p>
+        <div class="tensor-copy">
+          <h2 id="explorer-title">
+            Three views.
+            <br />
+            One shared dataset.
+          </h2>
+          <p>
+            A two-dimensional slice, a 3D volume, and an editable numerical grid
+            stay in sync. Select a cell in one view and find it in the others;
+            edit its value and watch the colors change.
+          </p>
+          <p>
+            Scrub through time, play a wave, or separate the layers to see how a
+            slice fits inside the whole. Presets offer a starting point, with
+            custom formulas for further exploration.
+          </p>
+        </div>
+        <figure class="tensor-wide">
+          <Image
+            src={explorer}
+            alt="TensorView’s explorer shows a color-coded slice, a three-dimensional tensor, and its editable numerical values side by side."
+            widths={[600, 1000, 1440, 2000, 2880]}
+            quality={90}
+            sizes="94vw"
+          />
+          <figcaption>
+            Spatial, visual, and numerical representations of the same tensor.
+          </figcaption>
+        </figure>
+      </section>
+      <section class="tensor-section" aria-labelledby="learning-title">
+        <p class="tensor-label">03 / Learning by doing</p>
+        <div class="tensor-copy">
+          <h2 id="learning-title">
+            Build the intuition.
+            <br />
+            Then explore.
+          </h2>
+          <p>
+            A guided introduction moves from scalars to vectors, matrices, and
+            third-order tensors, then explains slices and fibers. Each step
+            pairs an interactive visual with the corresponding notation.
+          </p>
+          <p>
+            The goal is to make the relationship between dimensions and data
+            easier to grasp before opening the full explorer.
+          </p>
+        </div>
+        <figure class="tensor-wide">
+          <Image
+            src={learning}
+            alt="TensorView’s guided lesson pairs a three-dimensional tensor visualization with an explanation of its dimensions and indexing."
+            widths={[600, 1000, 1440, 2000, 2880]}
+            quality={90}
+            sizes="94vw"
+          />
+          <figcaption>
+            A step-by-step path from a single value to a multidimensional array.
+          </figcaption>
+        </figure>
+      </section>
+      <section class="tensor-section" aria-labelledby="build-title">
+        <p class="tensor-label">04 / The build</p>
+        <div class="tensor-copy">
+          <h2 id="build-title">
+            A small stack.
+            <br />A shared source of truth.
+          </h2>
+          <p>
+            Built with vanilla JavaScript, Three.js, and Vite. A shared tensor
+            model stores the values and notifies each view when they change.
+            Three.js renders the volume, a 2D canvas draws the slice, and
+            MathJax handles the mathematical notation.
+          </p>
+          <TechList items={['three', 'vite']} compact />
+          <div class="tensor-links">
+            <a
+              class="tensor-label underline-link"
+              href="https://tensorview.curtisray.me"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open TensorView ↗
+            </a>
+            <a
+              class="tensor-label underline-link"
+              href="https://github.com/curtisray/tensorview"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View source ↗
+            </a>
+          </div>
+        </div>
+      </section>
+      <div class="tensor-endnote">
+        <p class="tensor-label">Designed & built by Curtis Ray</p>
+        <a class="tensor-label underline-link" href="/work/people">
+          Next project: People the App ↗
+        </a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
