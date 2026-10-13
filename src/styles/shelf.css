@@ -199,6 +199,9 @@
   .shelf-books::-webkit-scrollbar {
     display: none;
   }
+  .shelf-books[data-magnet-ready] {
+    scroll-snap-type: none;
+  }
   .shelf-track {
     --spine: 40px;
     position: relative;

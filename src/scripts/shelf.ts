@@ -16,6 +16,7 @@ if (shelf) {
   const track = shelf.querySelector<HTMLElement>('.shelf-track')!;
   let selectedBook = books.find((book) => book.open) ?? books[0];
   let stopMobileScroll: (() => void) | undefined;
+  let stopMobileMagnet: (() => void) | undefined;
   let mobileResize: ResizeObserver | undefined;
   let mobileVersion = 0;
   const hoverPreview = window.matchMedia(
@@ -130,6 +131,7 @@ if (shelf) {
   async function syncMobileShelf() {
     const version = ++mobileVersion;
     stopMobileScroll?.();
+    stopMobileMagnet?.();
     mobileResize?.disconnect();
     track
       .querySelectorAll('[data-carousel-clone]')
@@ -222,9 +224,93 @@ if (shelf) {
     measure();
     mobileResize = new ResizeObserver(measure);
     mobileResize.observe(rail);
-    const { scroll } = await import('motion');
+    const { scroll, animate } = await import('motion');
     if (signal.aborted || version !== mobileVersion || !mobile.matches) return;
     stopMobileScroll = scroll(update, { container: rail, axis: 'x' });
+    // Let native swipe momentum finish before gently centering the nearest card.
+    // Disable CSS snapping while enhanced so it cannot fight the slower pull.
+    rail.dataset.magnetReady = '';
+    const magnetController = new AbortController();
+    const magnetSignal = magnetController.signal;
+    let idleTimer: ReturnType<typeof setTimeout> | undefined;
+    let pull: ReturnType<typeof animate> | undefined;
+    let touching = false;
+    let holdingPointer = false;
+    function interruptPull() {
+      clearTimeout(idleTimer);
+      pull?.stop();
+      pull = undefined;
+    }
+    function schedulePull() {
+      clearTimeout(idleTimer);
+      if (touching || holdingPointer || pull) return;
+      idleTimer = setTimeout(() => {
+        const center = rail.scrollLeft + rail.clientWidth / 2;
+        const nearest = centers.reduce((best, value) =>
+          Math.abs(value - center) < Math.abs(best - center) ? value : best,
+        );
+        const target = nearest - rail.clientWidth / 2;
+        if (Math.abs(target - rail.scrollLeft) < 1) return;
+        if (reducedMotion.matches) {
+          rail.scrollLeft = target;
+          return;
+        }
+        pull = animate(rail.scrollLeft, target, {
+          duration: motionTokens.slow * 2,
+          ease: motionTokens.settleEase,
+          onUpdate: (position) => {
+            rail.scrollLeft = position;
+          },
+          onComplete: () => {
+            pull = undefined;
+          },
+        });
+      }, 180);
+    }
+    const passive = { signal: magnetSignal, passive: true };
+    rail.addEventListener('scroll', schedulePull, passive);
+    rail.addEventListener(
+      'pointerdown',
+      () => {
+        holdingPointer = true;
+        interruptPull();
+      },
+      passive,
+    );
+    const releasePointer = () => {
+      holdingPointer = false;
+      schedulePull();
+    };
+    window.addEventListener('pointerup', releasePointer, passive);
+    window.addEventListener('pointercancel', releasePointer, passive);
+    rail.addEventListener(
+      'touchstart',
+      () => {
+        touching = true;
+        interruptPull();
+      },
+      passive,
+    );
+    const releaseTouch = () => {
+      touching = false;
+      schedulePull();
+    };
+    window.addEventListener('touchend', releaseTouch, passive);
+    window.addEventListener('touchcancel', releaseTouch, passive);
+    rail.addEventListener(
+      'wheel',
+      () => {
+        interruptPull();
+        schedulePull();
+      },
+      passive,
+    );
+    rail.addEventListener('keydown', interruptPull, { signal: magnetSignal });
+    stopMobileMagnet = () => {
+      interruptPull();
+      magnetController.abort();
+      delete rail.dataset.magnetReady;
+    };
   }
   rail.addEventListener(
     'click',
@@ -277,6 +363,7 @@ if (shelf) {
       controller.abort();
       ++mobileVersion;
       stopMobileScroll?.();
+      stopMobileMagnet?.();
       mobileResize?.disconnect();
       animations.forEach((animation) => animation.stop());
     });
