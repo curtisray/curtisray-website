@@ -113,6 +113,9 @@
 .work-piece[data-open] .work-card-trigger {
   pointer-events: none;
 }
+.work-card-close {
+  display: none;
+}
 .work-card-info {
   position: absolute;
   z-index: 3;
@@ -222,8 +225,24 @@
     position: static;
   }
   .work-piece {
-    width: min(75%, 300px);
+    width: min(60%, 240px);
     margin: 0;
+  }
+  .work-card-close {
+    position: absolute;
+    z-index: 4;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: var(--rule);
+    color: var(--color-ink);
+    background: var(--color-paper);
+    cursor: pointer;
+  }
+  .work-card-media {
+    cursor: default;
   }
   .work-piece-people,
   .work-piece-tensorview,

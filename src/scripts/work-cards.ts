@@ -10,6 +10,7 @@ type Card = {
   media: HTMLAnchorElement;
   info: HTMLElement;
   trigger: HTMLButtonElement;
+  closeButton: HTMLButtonElement;
   state: 'closed' | 'open' | 'closing';
   animation?: AnimationPlaybackControls;
   progress: number;
@@ -47,6 +48,7 @@ if (section) {
     media: element.querySelector<HTMLAnchorElement>('.work-card-media')!,
     info: element.querySelector<HTMLElement>('.work-card-info')!,
     trigger: element.querySelector<HTMLButtonElement>('.work-card-trigger')!,
+    closeButton: element.querySelector<HTMLButtonElement>('.work-card-close')!,
     state: 'closed',
     progress: 0,
     version: 0,
@@ -93,7 +95,15 @@ if (section) {
       width: resting.background.width - 2 * border,
       height: resting.background.height - 2 * border,
     };
-    setRect(card.white, mixRect(whiteRest, target.white, geometry));
+    const whiteRect = mixRect(whiteRest, target.white, geometry);
+    setRect(card.white, whiteRect);
+    setRect(card.closeButton, {
+      left: whiteRect.left + whiteRect.width - 52,
+      top: whiteRect.top + 8,
+      width: 44,
+      height: 44,
+    });
+    card.closeButton.style.opacity = String(copy);
     setRect(card.media, mixRect(resting.media, target.media, geometry));
     setRect(card.trigger, mixRect(resting.media, target.trigger, geometry));
     setRect(card.info, target.info);
@@ -107,9 +117,10 @@ if (section) {
   }
   function finishOpen(card: Card) {
     if (document.activeElement === card.trigger) {
-      card.info
-        .querySelector<HTMLAnchorElement>('.work-card-project-link')
-        ?.focus({ preventScroll: true });
+      const target = mobile.matches
+        ? card.closeButton
+        : card.info.querySelector<HTMLAnchorElement>('.work-card-project-link');
+      target?.focus({ preventScroll: true });
     }
     card.trigger.hidden = true;
   }
@@ -266,7 +277,7 @@ if (section) {
       width: width - 2 * border,
       height: height - 2 * border,
     };
-    const header = 0;
+    const header = mobile.matches ? 44 : 0;
     const innerWidth = white.width - 2 * padding,
       contentHeight = white.height - 2 * padding - header;
     const mediaWidth = mobile.matches
@@ -310,6 +321,7 @@ if (section) {
       card.trigger,
       card.white,
       card.info,
+      card.closeButton,
     ]) {
       for (const property of [
         'left',
@@ -323,6 +335,7 @@ if (section) {
     }
     card.white.hidden = true;
     card.info.hidden = true;
+    card.closeButton.hidden = true;
   }
   function close(card: Card, immediate = false, updateNeighbors = true) {
     clearTimeout(leaveTimer);
@@ -343,6 +356,9 @@ if (section) {
     );
     card.info.inert = true;
     card.info.setAttribute('aria-hidden', 'true');
+    if (document.activeElement === card.closeButton)
+      card.trigger.focus({ preventScroll: true });
+    card.closeButton.hidden = true;
     play(card, 0, immediate);
   }
   function open(card: Card, explicit = false) {
@@ -367,6 +383,7 @@ if (section) {
     card.info.hidden = false;
     card.info.inert = false;
     card.info.removeAttribute('aria-hidden');
+    card.closeButton.hidden = !mobile.matches;
     card.trigger.setAttribute('aria-expanded', 'true');
     card.trigger.setAttribute(
       'aria-label',
@@ -379,6 +396,16 @@ if (section) {
     card.trigger.hidden = false;
     card.media.tabIndex = -1;
     card.media.setAttribute('aria-hidden', 'true');
+    syncMediaLink(card);
+    card.closeButton.addEventListener(
+      'click',
+      () => {
+        suppressed = card;
+        close(card);
+        card.trigger.focus({ preventScroll: true });
+      },
+      { signal },
+    );
     card.trigger.addEventListener(
       'click',
       () => {
@@ -450,13 +477,29 @@ if (section) {
   function resize() {
     arrangeNeighbors(active, true);
     cards.forEach((card) => {
+      syncMediaLink(card);
       if (card.state === 'open') {
+        if (!mobile.matches && document.activeElement === card.closeButton)
+          card.info
+            .querySelector<HTMLAnchorElement>('.work-card-project-link')
+            ?.focus({ preventScroll: true });
+        card.closeButton.hidden = !mobile.matches;
         stop(card);
         card.layout = { resting: rest(card), expanded: expanded(card) };
         render(card, 1);
         finishOpen(card);
       } else if (card.state === 'closing') close(card, true);
     });
+  }
+  function syncMediaLink(card: Card) {
+    if (mobile.matches) card.media.removeAttribute('href');
+    else
+      card.media.setAttribute(
+        'href',
+        card.info
+          .querySelector<HTMLAnchorElement>('.work-card-project-link')!
+          .getAttribute('href')!,
+      );
   }
   window.addEventListener('resize', resize, { signal });
   reduced.addEventListener('change', resize, { signal });
@@ -479,6 +522,12 @@ if (section) {
         card.trigger.hidden = true;
         card.media.removeAttribute('tabindex');
         card.media.removeAttribute('aria-hidden');
+        card.media.setAttribute(
+          'href',
+          card.info
+            .querySelector<HTMLAnchorElement>('.work-card-project-link')!
+            .getAttribute('href')!,
+        );
       });
     });
 }

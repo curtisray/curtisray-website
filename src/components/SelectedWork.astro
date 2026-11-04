@@ -131,7 +131,7 @@ const rows = [featured.slice(0, 3), featured.slice(3)];
               src={project.artwork}
               alt={project.alt}
               widths={[300, 500, 800]}
-              sizes="(max-width: 760px) 70vw, 300px"
+              sizes="(max-width: 760px) 60vw, 300px"
               quality={90}
             />
             {project.video && (
@@ -154,6 +154,26 @@ const rows = [featured.slice(0, 3), featured.slice(3)];
             aria-label={`Show ${project.title} details`}
             hidden
           ></button>
+          <button
+            class="work-card-close"
+            type="button"
+            aria-label={`Close ${project.title} details`}
+            hidden
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="m5 5 10 10M15 5 5 15"
+                stroke="currentColor"
+                stroke-width="1.5"
+              />
+            </svg>
+          </button>
           <div
             class="work-card-info"
             id={`work-info-${project.id}`}
