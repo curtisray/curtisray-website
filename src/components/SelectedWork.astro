@@ -1,0 +1,188 @@
+---
+import { Image } from 'astro:assets';
+import moonlight from '../assets/work/moonlight-poster.png';
+import people from '../assets/work/people-poster.png';
+import aleli from '../assets/aleli.jpg';
+import tensorview from '../assets/projects/tensorview/cube.png';
+import pepCoffee from '../assets/pep-coffee.png';
+import danchel from '../assets/danchel.png';
+import blue from '../assets/work/static-blue-wide-v1.png';
+import amber from '../assets/work/static-amber-wide-v1.png';
+import rose from '../assets/work/static-rose-wide-v1.png';
+import purple from '../assets/work/static-purple-wide-v1.png';
+import green from '../assets/work/static-green-wide-v1.png';
+import red from '../assets/work/static-red-wide-v1.png';
+import '../styles/selected-work.css';
+
+const featured = [
+  {
+    id: 'moonlight',
+    title: 'Moonlight Brewing Co.',
+    date: '2026',
+    services: ['DTC ecommerce', 'Conversion optimization', 'Subscriptions'],
+    summary:
+      'A ground-up DTC ecommerce rebuild for expansion across California’s beer market. Designed to improve conversion, average order value, and customer lifetime value through recurring orders and a subscription club.',
+    artwork: moonlight,
+    background: purple,
+    alt: 'A still from the Moonlight Brewing Co. video preview.',
+    video: '/videos/moonlight-brewing-preview.mp4',
+  },
+  {
+    id: 'people',
+    title: 'People the App',
+    date: '2026 — In progress',
+    services: ['Product design', 'iOS development', 'Map-based experiences'],
+    summary:
+      'A native iOS app for remembering the people you meet around the world. Save the details of a connection and keep the places and stories close.',
+    artwork: people,
+    background: green,
+    alt: 'A still from the People app loading animation.',
+    video: '/videos/people-loader.mp4',
+  },
+  {
+    id: 'aleli',
+    title: 'Aleli Spangler Photography',
+    date: '2026',
+    services: ['Strategy', 'Market analysis', 'Web design'],
+    summary:
+      'A brand built from scratch, informed by market analysis in New York City and San Francisco. Audience personas shaped the positioning and an on-brand web experience tailored to each market.',
+    artwork: aleli,
+    background: red,
+    alt: 'A sunlit portrait from Aleli Spangler’s photography portfolio.',
+  },
+  {
+    id: 'tensorview',
+    title: 'TensorView',
+    date: '2026',
+    services: ['Product design', '3D visualization', 'Web development'],
+    summary:
+      'An interactive tool for learning and visualizing tensors. Linked 2D, 3D, and numerical views make the relationship between dimensions and data tangible.',
+    artwork: tensorview,
+    background: blue,
+    alt: 'A colorful three-dimensional cube from TensorView.',
+  },
+  {
+    id: 'pep-coffee',
+    title: 'Pep Coffee',
+    date: '2026',
+    services: ['Ecommerce design', 'Brand design', 'Web development'],
+    summary:
+      'An ecommerce concept for a specialty coffee brand, pairing a bold visual identity with product discovery, subscriptions, and a custom storefront preview.',
+    artwork: pepCoffee,
+    background: amber,
+    alt: 'Pep Coffee storefront designs across desktop and mobile.',
+  },
+  {
+    id: 'danchel',
+    title: 'Danchel',
+    date: '2026',
+    services: ['Brand refresh', 'Conversion optimization', 'Creative & copy'],
+    summary:
+      'A brand makeover and streamlined landing page built to convert traffic from Meta ads. Creative, copy, and the purchase funnel were designed together to create a clear path from first impression to checkout.',
+    artwork: danchel,
+    background: rose,
+    alt: 'The pink product-led Danchel beauty storefront.',
+  },
+];
+const rows = [featured.slice(0, 3), featured.slice(3)];
+---
+
+<section id="shelf" class="selected-work" aria-labelledby="work-title">
+  {rows.map((projects, row) => (
+    <div
+      class:list={['work-composition', { 'work-composition-next': row > 0 }]}
+      data-work-row
+    >
+      {row === 0 && (
+        <h2 id="work-title" data-parallax="text">
+          My work
+        </h2>
+      )}
+      {projects.map((project) => (
+        <article
+          id={`work-${project.id}`}
+          class={`work-piece work-piece-${project.id}`}
+          data-work-card
+          data-title={project.title}
+        >
+          <div
+            class="work-piece-background"
+            data-parallax="backdrop"
+            aria-hidden="true"
+          >
+            <Image
+              class="work-background-texture"
+              src={project.background}
+              alt=""
+              widths={[1280, 1672]}
+              sizes="1280px"
+              quality={90}
+            />
+          </div>
+          <div class="work-card-white" hidden></div>
+          <a
+            class="work-card-media"
+            data-parallax="image"
+            href={`/work/${project.id}`}
+            aria-label={`View ${project.title}`}
+          >
+            <Image
+              class="work-piece-artwork"
+              src={project.artwork}
+              alt={project.alt}
+              widths={[300, 500, 800]}
+              sizes="(max-width: 760px) 70vw, 300px"
+              quality={90}
+            />
+            {project.video && (
+              <video
+                class="work-piece-artwork work-piece-video"
+                data-work-video={project.video}
+                muted
+                loop
+                playsinline
+                preload="none"
+                aria-hidden="true"
+              />
+            )}
+          </a>
+          <button
+            class="work-card-trigger"
+            type="button"
+            aria-expanded="false"
+            aria-controls={`work-info-${project.id}`}
+            aria-label={`Show ${project.title} details`}
+            hidden
+          ></button>
+          <div
+            class="work-card-info"
+            id={`work-info-${project.id}`}
+            hidden
+            inert
+            aria-hidden="true"
+          >
+            <p class="work-card-date">{project.date}</p>
+            <h3>{project.title}</h3>
+            <ul class="work-card-services" aria-label="Key services">
+              {project.services.map((service) => (
+                <li>{service}</li>
+              ))}
+            </ul>
+            <p class="work-card-summary">{project.summary}</p>
+            <a
+              class="work-card-project-link underline-link"
+              href={`/work/${project.id}`}
+            >
+              View full project ↗
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  ))}
+</section>
+
+<script>
+  import '../scripts/work-video';
+  import '../scripts/work-cards';
+</script>

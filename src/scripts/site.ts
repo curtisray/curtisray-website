@@ -1,3 +1,4 @@
+import './parallax';
 import Lenis from 'lenis';
 import { createScrollMagnet } from './magnet';
 
@@ -9,7 +10,7 @@ const { signal } = controller;
 const sectionStarts = document.querySelector('.hero')
   ? [
       ...document.querySelectorAll<HTMLElement>(
-        '.developer-overview, .work-shelf, .site-footer-full',
+        '.developer-overview, .selected-work, .work-shelf, .site-footer-full',
       ),
     ]
   : [];
@@ -44,7 +45,7 @@ const destroyMagnet = createScrollMagnet({
     // Tall content remains freely scrollable, including zoomed or short screens.
     const current = [
       ...document.querySelectorAll<HTMLElement>(
-        '.hero, .developer-overview, .work-shelf, .site-footer-full',
+        '.hero, .developer-overview, .selected-work, .work-shelf, .site-footer-full',
       ),
     ].find((section) => {
       const rect = section.getBoundingClientRect();

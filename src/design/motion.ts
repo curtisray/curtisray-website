@@ -1,9 +1,14 @@
 /** Calm, deliberate motion. Durations are seconds; CSS variables derive from these values. */
 export const motionTokens = {
   orbitDamping: 0.06,
+  parallax: {
+    distance: { image: 14, text: 8, backdrop: 8, accent: 6 },
+    mobileScale: 0.5,
+  },
   quick: 0.16,
   standard: 0.32,
   slow: 0.56,
+  workCard: 0.88,
   ease: [0.2, 0.7, 0.2, 1] as const,
   settleEase: [0.4, 0, 0.2, 1] as const,
 };
@@ -13,3 +18,9 @@ export const motionStyle = [
   `--motion-slow:${motionTokens.slow}s`,
   `--ease-out:cubic-bezier(${motionTokens.ease.join(',')})`,
 ].join(';');
+
+/** Decelerating scroll progress for the footer’s widening reveal. */
+export function footerEntranceProgress(progress: number) {
+  const clamped = Math.max(0, Math.min(1, progress));
+  return 1 - Math.pow(1 - clamped, 1.6);
+}

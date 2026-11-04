@@ -3,30 +3,34 @@ import '../styles/footer.css';
 import { Image } from 'astro:assets';
 import penguin from '../assets/penguin-icon.png';
 import ContactBar from './ContactBar.astro';
-import FooterLines from './FooterLines';
+import FooterReveal from './FooterReveal';
 interface Props {
   full?: boolean;
 }
 const { full = false } = Astro.props;
 ---
 
-<footer id="contact" class:list={['site-footer', { 'site-footer-full': full }]}>
-  {full && (
-    <>
-      <FooterLines client:visible={{ rootMargin: '200px' }} />
-      <Image
-        class="footer-penguin"
-        src={penguin}
-        alt="Penguin with surfboard"
-        width={736}
-        height={420}
-        widths={[240, 480, 736]}
-        sizes="(max-width: 760px) 55vw, 26vw"
-      />
-    </>
-  )}
-  <ContactBar id="footer-contact" />
-</footer>
+<div class:list={{ 'footer-frame': full }}>
+  <footer
+    id="contact"
+    class:list={['site-footer', { 'site-footer-full': full }]}
+  >
+    {full && (
+      <>
+        <FooterReveal client:visible={{ rootMargin: '200px' }} />
+        <Image
+          class="footer-penguin"
+          data-parallax="accent"
+          src={penguin}
+          alt="Penguin with surfboard"
+          width={88}
+          height={72}
+        />
+      </>
+    )}
+    <ContactBar id="footer-contact" />
+  </footer>
+</div>
 
 <script>
   import '../scripts/footer-canvas';

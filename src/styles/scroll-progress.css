@@ -10,7 +10,8 @@ html.has-scroll-progress::-webkit-scrollbar {
   z-index: 50;
   width: 2px;
   height: 100dvh;
-  background: var(--color-black);
+  mix-blend-mode: difference;
+  background: white;
   transform: scaleY(0);
   transform-origin: top left;
   pointer-events: none;

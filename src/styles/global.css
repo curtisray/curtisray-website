@@ -81,8 +81,8 @@ p {
 }
 .brand img {
   display: block;
-  width: 44px;
-  height: 36px;
+  width: var(--brand-mark-width);
+  height: var(--brand-mark-height);
   object-fit: cover;
   object-position: center 52%;
 }

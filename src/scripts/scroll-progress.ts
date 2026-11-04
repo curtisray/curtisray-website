@@ -1,11 +1,10 @@
 const line = document.querySelector<HTMLElement>('.scroll-progress');
-const footer = document.querySelector<HTMLElement>('.site-footer');
-if (line && footer) {
+if (line) {
   const root = document.documentElement;
   const mobile = window.matchMedia('(max-width: 760px)');
   const controller = new AbortController();
   const { signal } = controller;
-  let footerTop = 0;
+  let pageHeight = 0;
   let viewportHeight = window.innerHeight;
   let frame = 0;
   root.classList.add('has-scroll-progress');
@@ -14,21 +13,16 @@ if (line && footer) {
     frame = 0;
     if (mobile.matches) return;
     const position = Math.max(0, window.scrollY);
-    const range = Math.max(1, footerTop - viewportHeight);
+    const range = Math.max(1, pageHeight - viewportHeight);
     const progress = Math.min(1, position / range);
-    // Clip the growing line at the footer's top as it enters the viewport.
-    const available = Math.max(
-      0,
-      Math.min(1, (footerTop - position) / viewportHeight),
-    );
-    line!.style.transform = `scaleY(${Math.min(progress, available)})`;
+    line!.style.transform = `scaleY(${progress})`;
   }
   function schedule() {
     if (!mobile.matches && !frame) frame = requestAnimationFrame(paint);
   }
   function measure() {
     viewportHeight = window.innerHeight;
-    footerTop = footer!.getBoundingClientRect().top + window.scrollY;
+    pageHeight = root.scrollHeight;
     schedule();
   }
   // Geometry is measured on layout changes, never during ordinary scrolling.

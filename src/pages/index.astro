@@ -4,7 +4,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Brand from '../components/Brand.astro';
 import ContactBar from '../components/ContactBar.astro';
-import WorkShelf from '../components/WorkShelf.astro';
+import SelectedWork from '../components/SelectedWork.astro';
 import Footer from '../components/Footer.astro';
 import { developerLinks } from '../data/site';
 import clouds from '../assets/clouds.png';
@@ -35,6 +35,7 @@ import meadow from '../assets/meadow.png';
       <section class="hero" aria-label="Introduction">
         <Image
           class="hero-clouds"
+          data-parallax="image"
           src={clouds}
           alt="Grainy blue sky with clouds"
           width={1600}
@@ -46,10 +47,11 @@ import meadow from '../assets/meadow.png';
         <div class="hero-intro">
           <Brand
             class="hero-brand"
+            parallax
             href="#contact"
             label="Get in touch with Curtis"
           />
-          <div class="hero-copy">
+          <div class="hero-copy" data-parallax="text">
             <p>
               I'm a <em>designer and developer</em> who works as a single,
               hands-on partner from first idea to launch. I cover strategy,
@@ -61,8 +63,14 @@ import meadow from '../assets/meadow.png';
       </section>
       <section id="work" class="developer-overview" aria-label="For developers">
         <div class="overview-overlay">
-          <Image class="overview-paper" src={gridPaper} alt="" width={574} />
-          <div class="overview-copy">
+          <Image
+            class="overview-paper"
+            data-parallax="backdrop"
+            src={gridPaper}
+            alt=""
+            width={574}
+          />
+          <div class="overview-copy" data-parallax="text">
             <p>
               I can keep projects moving quickly and adapt as things change. I
               like clear problems, effective solutions, and seeing work through
@@ -72,13 +80,18 @@ import meadow from '../assets/meadow.png';
         </div>
         <Image
           class="overview-meadow"
+          data-parallax="image"
           src={meadow}
           alt="Pixel meadow with white birds"
           width={1100}
           widths={[550, 800, 1100]}
           sizes="(max-width: 760px) 75vw, 42vw"
         />
-        <nav class="developer-links" aria-label="For developers">
+        <nav
+          class="developer-links"
+          data-parallax="text"
+          aria-label="For developers"
+        >
           <p class="eyebrow">For developers</p>
           {developerLinks.map((link) => (
             <a class="underline-link" href={link.href}>
@@ -87,7 +100,7 @@ import meadow from '../assets/meadow.png';
           ))}
         </nav>
       </section>
-      <WorkShelf />
+      <SelectedWork />
     </main>
   </div>
   <Footer full />

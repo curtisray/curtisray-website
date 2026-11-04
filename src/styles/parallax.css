@@ -1,0 +1,10 @@
+/* Individual translate preserves each block's existing positioning transform. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-parallax] {
+    translate: 0 calc(var(--parallax-y, 0px) * var(--parallax-weight, 1));
+  }
+  [data-parallax]:focus-within,
+  .work-card-media:focus-visible {
+    translate: none;
+  }
+}

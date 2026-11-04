@@ -1,0 +1,256 @@
+.selected-work {
+  --work-stagger: clamp(var(--space-16), 10vw, 160px);
+  --work-layer-offset: var(--space-6);
+  --work-texture-height: 580px;
+  --work-texture-width: calc(var(--work-texture-height) * 16 / 9);
+  padding: var(--gutter);
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+.work-composition {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: var(--inset);
+  width: 100%;
+  min-height: calc(100svh - 2 * var(--gutter));
+}
+.work-composition-next {
+  margin-top: var(--section-space);
+}
+.work-composition h2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: var(--text-section);
+  font-weight: 500;
+  line-height: var(--leading-heading);
+}
+.work-piece {
+  --parallax-weight: 1;
+  --work-peer-scale: 1;
+  transform-origin: top left;
+  display: block;
+  position: relative;
+  grid-row: 1;
+  align-self: start;
+  width: min(100%, 300px);
+  aspect-ratio: 9 / 16;
+  min-width: 0;
+  isolation: isolate;
+  scroll-margin-block: var(--space-8);
+}
+.work-piece-background,
+.work-card-media {
+  position: absolute;
+  display: block;
+  width: calc(100% - var(--work-layer-offset));
+  height: calc(100% - var(--work-layer-offset));
+}
+.work-piece-background {
+  max-width: none;
+  top: var(--work-layer-offset);
+  left: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+/* Reveal a fixed-size canvas instead of enlarging grain with the card. */
+.work-background-texture {
+  position: absolute;
+  display: block;
+  width: var(--work-texture-width);
+  height: var(--work-texture-height);
+  max-width: none;
+  left: calc(50% - var(--work-texture-width) / 2);
+  top: calc(50% - var(--work-texture-height) / 2);
+  object-fit: cover;
+  scale: calc(1 / var(--work-peer-scale, 1));
+  transform-origin: center;
+  pointer-events: none;
+}
+.work-card-media {
+  top: 0;
+  left: var(--work-layer-offset);
+  z-index: 2;
+}
+.work-piece-artwork {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.work-piece[data-open] {
+  z-index: 6;
+}
+.work-piece[data-closing] {
+  z-index: 5;
+}
+.work-card-white {
+  position: absolute;
+  z-index: 1;
+  background: var(--color-paper);
+  pointer-events: none;
+}
+.work-card-trigger {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: var(--work-layer-offset);
+  width: calc(100% - var(--work-layer-offset));
+  height: calc(100% - var(--work-layer-offset));
+  min-width: 44px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  color: var(--color-ink);
+  background: transparent;
+  padding: 0;
+  border: 0;
+}
+.work-piece[data-open] .work-card-trigger {
+  pointer-events: none;
+}
+.work-card-info {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: safe center;
+  gap: var(--space-5);
+  overflow: auto;
+  color: var(--color-ink);
+}
+.work-card-info > * {
+  flex-shrink: 0;
+}
+.work-card-info h3 {
+  max-width: 16ch;
+  padding-right: var(--space-6);
+  font-size: var(--text-title);
+  font-weight: 500;
+  line-height: var(--leading-heading);
+}
+.work-card-date,
+.work-card-services,
+.work-card-project-link {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  line-height: var(--leading-detail);
+}
+.work-card-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.work-card-services li {
+  border-bottom: var(--rule);
+  padding-bottom: var(--space-1);
+}
+.work-card-summary {
+  max-width: 35ch;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+.work-card-project-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.work-piece-moonlight {
+  grid-column: 1;
+  justify-self: start;
+  margin-top: calc(2 * var(--work-stagger));
+}
+.work-piece-people {
+  grid-column: 2;
+  justify-self: center;
+  margin-top: var(--work-stagger);
+}
+.work-piece-aleli {
+  grid-column: 3;
+  justify-self: end;
+}
+.work-piece-tensorview {
+  grid-column: 1;
+  justify-self: start;
+}
+.work-piece-pep-coffee {
+  grid-column: 2;
+  justify-self: center;
+  margin-top: var(--work-stagger);
+}
+.work-piece-danchel {
+  grid-column: 3;
+  justify-self: end;
+  margin-top: calc(2 * var(--work-stagger));
+}
+.work-piece-tensorview .work-card-media {
+  background: #6366f1;
+}
+.work-piece-tensorview .work-piece-artwork {
+  object-fit: contain;
+}
+.work-piece-pep-coffee .work-piece-artwork,
+.work-piece-danchel .work-piece-artwork {
+  object-position: center top;
+}
+@media (max-width: 760px) {
+  .selected-work {
+    --work-layer-offset: var(--space-4);
+    --work-texture-height: max(
+      528px,
+      min(704px, calc(100dvh - 2 * var(--gutter) + 4px))
+    );
+  }
+  .work-composition {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    min-height: 0;
+  }
+  .work-composition-next {
+    margin-top: var(--space-16);
+  }
+  .work-composition h2 {
+    position: static;
+  }
+  .work-piece {
+    width: min(75%, 300px);
+    margin: 0;
+  }
+  .work-piece-people,
+  .work-piece-tensorview,
+  .work-piece-danchel {
+    align-self: flex-end;
+  }
+}
+
+.work-piece-video {
+  opacity: 0;
+  pointer-events: none;
+}
+.work-piece-video[data-playing] {
+  opacity: 1;
+}
+
+@media (max-width: 760px) {
+  .work-card-info {
+    gap: var(--space-3);
+    justify-content: flex-start;
+  }
+  .work-card-info h3 {
+    max-width: none;
+    padding-right: 0;
+    font-size: var(--text-title);
+  }
+  .work-card-summary {
+    font-size: 1.0625rem;
+  }
+}

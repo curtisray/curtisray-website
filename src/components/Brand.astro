@@ -5,11 +5,22 @@ interface Props {
   href?: string;
   label?: string;
   class?: string;
+  parallax?: boolean;
 }
-const { href = '/', label = 'Curtis Ray home', class: className } = Astro.props;
+const {
+  parallax = false,
+  href = '/',
+  label = 'Curtis Ray home',
+  class: className,
+} = Astro.props;
 ---
 
-<a class:list={['brand', className]} href={href} aria-label={label}>
+<a
+  data-parallax={parallax ? 'text' : undefined}
+  class:list={['brand', className]}
+  href={href}
+  aria-label={label}
+>
   <Image src={penguin} alt="" width={88} height={72} />
   <span>Curtis</span>
 </a>
