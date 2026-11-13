@@ -1,10 +1,96 @@
 ---
 import DeveloperLayout from '../layouts/DeveloperLayout.astro';
+const installCommand =
+  'npx skills add curtisray/curtisray-website --skill claude-design-port';
 ---
 
 <DeveloperLayout
   title="Agent skills"
-  intro="Reusable instructions for AI agents. Published skills and their source code will appear here."
+  intro="Reusable instructions for AI agents, built around the way I design and develop. Read the source or install a skill in your project."
 >
-  <p class="coming-soon">First skills coming soon</p>
+  <article class="content-row">
+    <span class="row-number">01</span>
+    <div class="row-copy">
+      <h2>Claude Design Port</h2>
+      <p>
+        Bring Claude Design exports into an existing project using its native
+        stack, design system, and motion conventions. A workflow for preserving
+        the visual intent, connecting functionality, and verifying the result.
+      </p>
+      <p>
+        Requires a documented design system before building. Run the command
+        from your project folder, then choose your coding agent.
+      </p>
+      <div class="skill-install">
+        <pre
+          tabindex="0"
+          aria-label="Install Claude Design Port"
+        ><code>{installCommand}</code></pre>
+        <div class="skill-install-actions">
+          <button type="button" data-copy-skill hidden>
+            Copy command
+          </button>
+          <span class="skill-copy-status" role="status"></span>
+        </div>
+      </div>
+      <a
+        class="source-link underline-link"
+        href="https://github.com/curtisray/curtisray-website/tree/main/skills/claude-design-port"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Read the skill on GitHub ↗
+      </a>
+    </div>
+  </article>
 </DeveloperLayout>
+
+<style>
+  .skill-install {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .skill-install pre {
+    max-width: 100%;
+    overflow-x: auto;
+    border: var(--rule);
+    padding: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    line-height: var(--leading-detail);
+  }
+  .skill-install-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-caption);
+  }
+  .skill-install-actions button {
+    min-height: 44px;
+    padding: var(--space-2) var(--space-4);
+    border: var(--rule);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('[data-copy-skill]');
+  const command = document.querySelector('.skill-install code');
+  const status = document.querySelector('.skill-copy-status');
+  if (button && command && status && navigator.clipboard) {
+    button.hidden = false;
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(command.textContent ?? '');
+        status.textContent = 'Copied';
+      } catch {
+        status.textContent = 'Select and copy the command above.';
+      }
+    });
+  }
+</script>

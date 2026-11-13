@@ -48,6 +48,18 @@ The homepage combines the cloud introduction, developer links, selected work she
 
 The contact form posts directly to Formspree, with inline sending, success, and error states. Its public endpoint is configured in `src/data/site.ts`; no API secret or server dependency is required. Direct email and SMS links remain available on every page.
 
+## Published agent skills
+
+Authored skills live in `skills/`; `.agents/skills/` contains the tooling used to maintain this website. The public catalog is at `/agent-skills`.
+
+Install Claude Design Port from your project folder:
+
+```sh
+npx skills add curtisray/curtisray-website --skill claude-design-port
+```
+
+Read the [skill source](skills/claude-design-port/SKILL.md) for its workflow and design-system prerequisite.
+
 ## Dependency maintenance
 
 `@vercel/routing-utils` pins an older `path-to-regexp`. The scoped override in `package.json` selects its patched 6.3.0 release without downgrading the Astro adapter. Revisit the override when the adapter updates. Run `npm audit` after dependency changes.
